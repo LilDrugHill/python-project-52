@@ -29,6 +29,17 @@ python-versions = ">=3.6.0"
 unicode_backport = ["unicodedata2"]
 
 [[package]]
+name = "dj-database-url"
+version = "1.0.0"
+description = "Use Database URLs in your Django Application."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+Django = ">3.2"
+
+[[package]]
 name = "django"
 version = "4.1.1"
 description = "A high-level Python web framework that encourages rapid development and clean, pragmatic design."
@@ -44,6 +55,20 @@ tzdata = {version = "*", markers = "sys_platform == \"win32\""}
 [package.extras]
 argon2 = ["argon2-cffi (>=19.1.0)"]
 bcrypt = ["bcrypt"]
+
+[[package]]
+name = "django-on-heroku"
+version = "1.1.2"
+description = "This package simplifies running a Django app on Heroku platform."
+category = "main"
+optional = false
+python-versions = "*"
+
+[package.dependencies]
+dj-database-url = ">=0.5.0"
+django = "*"
+psycopg2-binary = "*"
+whitenoise = "*"
 
 [[package]]
 name = "flake8"
@@ -97,6 +122,14 @@ name = "mccabe"
 version = "0.7.0"
 description = "McCabe checker, plugin for flake8"
 category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
+name = "psycopg2-binary"
+version = "2.9.3"
+description = "psycopg2 - Python-PostgreSQL Database Adapter"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -171,21 +204,35 @@ brotli = ["brotlicffi (>=0.8.0)", "brotli (>=1.0.9)", "brotlipy (>=0.6.0)"]
 secure = ["pyOpenSSL (>=0.14)", "cryptography (>=1.3.4)", "idna (>=2.0.0)", "certifi", "urllib3-secure-extra", "ipaddress"]
 socks = ["PySocks (>=1.5.6,!=1.5.7,<2.0)"]
 
+[[package]]
+name = "whitenoise"
+version = "6.2.0"
+description = "Radically simplified static file serving for WSGI applications"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[package.extras]
+brotli = ["brotli"]
+
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "018e3f6462d6d86dfd379b0bf07e66f6af51145819266b616ef4f8ee265506a8"
+content-hash = "20a6db33965678885c2021c5b0e40babbd71d4fa03fb67f3e9801923a8f99a96"
 
 [metadata.files]
 asgiref = []
 certifi = []
 charset-normalizer = []
+dj-database-url = []
 django = []
+django-on-heroku = []
 flake8 = []
 gunicorn = []
 heroku = []
 idna = []
 mccabe = []
+psycopg2-binary = []
 pycodestyle = []
 pyflakes = []
 python-dateutil = []
@@ -193,3 +240,4 @@ requests = []
 sqlparse = []
 tzdata = []
 urllib3 = []
+whitenoise = []
