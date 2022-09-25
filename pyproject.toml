@@ -10,6 +10,7 @@ python = "^3.10"
 Django = "^4.1.1"
 gunicorn = "^20.1.0"
 django-on-heroku = "^1.1.2"
+artifacts = "^20220615"
 
 [tool.poetry.dev-dependencies]
 flake8 = "^5.0.4"
