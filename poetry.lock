@@ -1,15 +1,4 @@
 [[package]]
-name = "artifacts"
-version = "20220615"
-description = "ForensicArtifacts.com Artifact Repository."
-category = "main"
-optional = false
-python-versions = "*"
-
-[package.dependencies]
-PyYAML = ">=3.10"
-
-[[package]]
 name = "asgiref"
 version = "3.5.2"
 description = "ASGI specs, helper code, and adapters"
@@ -169,14 +158,6 @@ optional = false
 python-versions = "*"
 
 [[package]]
-name = "pyyaml"
-version = "6.0"
-description = "YAML parser and emitter for Python"
-category = "main"
-optional = false
-python-versions = ">=3.6"
-
-[[package]]
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
@@ -237,10 +218,9 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "0b956d3feea701f26d57626f157a0171a45a69b22b880304df29d34c71a3900f"
+content-hash = "706f9c77e531e79a159ccfae08c39e2e513d1b1d7977a43f3d1a7953698ccde7"
 
 [metadata.files]
-artifacts = []
 asgiref = []
 certifi = []
 charset-normalizer = []
@@ -256,7 +236,6 @@ psycopg2-binary = []
 pycodestyle = []
 pyflakes = []
 python-dateutil = []
-pyyaml = []
 requests = []
 sqlparse = []
 tzdata = []
