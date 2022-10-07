@@ -58,7 +58,7 @@ class RegisterUser(CreateView):
 
 class LoginUser(SuccessMessageMixin, LoginView):
     form_class = AuthenticationForm
-    template_name = 'task_manager/signinpage.html'
+    template_name = 'task_manager/SignInPage.html'
     success_url = reverse_lazy('home')
     success_message = 'Successfully login'
 
