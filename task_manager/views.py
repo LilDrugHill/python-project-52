@@ -1,13 +1,12 @@
-from django.views.generic.base import TemplateView, HttpResponse
+from django.views.generic.base import TemplateView
 from django.shortcuts import render
 from django.utils.translation import gettext
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
-from django.db import IntegrityError
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from django.views.generic import CreateView, ListView, UpdateView
+from django.contrib.auth import logout, update_session_auth_hash
+from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
+from django.views.generic import CreateView, ListView
 from django.urls import reverse_lazy
 from .forms import RegisterUserForm, UserUpdateForm
 from django.contrib.auth.views import LoginView
