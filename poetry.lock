@@ -28,7 +28,7 @@ lxml = ["lxml"]
 name = "certifi"
 version = "2022.9.24"
 description = "Python package for providing Mozilla's CA Bundle."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6"
 
@@ -36,7 +36,7 @@ python-versions = ">=3.6"
 name = "charset-normalizer"
 version = "2.1.1"
 description = "The Real First Universal Charset Detector. Open, modern and actively maintained alternative to Chardet."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.6.0"
 
@@ -151,7 +151,7 @@ requests = ">=1.0.0"
 name = "idna"
 version = "3.4"
 description = "Internationalized Domain Names in Applications (IDNA)"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -210,7 +210,7 @@ cli = ["click (>=5.0)"]
 name = "requests"
 version = "2.28.1"
 description = "Python HTTP for Humans."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.7, <4"
 
@@ -228,7 +228,7 @@ use_chardet_on_py3 = ["chardet (>=3.0.2,<6)"]
 name = "rollbar"
 version = "0.16.3"
 description = "Easy and powerful exception tracking with Rollbar. Send messages and exceptions with arbitrary context, get back aggregates, and debug production issues quickly."
-category = "dev"
+category = "main"
 optional = false
 python-versions = "*"
 
@@ -240,7 +240,7 @@ six = ">=1.9.0"
 name = "six"
 version = "1.16.0"
 description = "Python 2 and 3 compatibility utilities"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
 
@@ -272,7 +272,7 @@ python-versions = ">=2"
 name = "urllib3"
 version = "1.26.12"
 description = "HTTP library with thread-safe connection pooling, file post, and more."
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*, !=3.4.*, !=3.5.*, <4"
 
@@ -295,7 +295,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "c7521512ac5e68f95f03abab6241fc9fe4f65dc9151b73f595cdda174afaccbe"
+content-hash = "79d00deaf32d19a28ad1b60ec5eb0ca2e58e5ed4aefb78f6bebd5727f3466bdd"
 
 [metadata.files]
 asgiref = []
