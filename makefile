@@ -13,3 +13,6 @@ test:
 
 test-cov:
 	poetry run pytest --cov=task_manager . --cov-report xml
+
+install:
+	poetry install
