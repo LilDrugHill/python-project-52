@@ -3,9 +3,6 @@ from task_manager.utils import DataMixin
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -13,7 +10,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 class ShowAllStatuses(DataMixin, LoginRequiredMixin, ListView):
     model = StatusModel
     template_name = "PageWithAll.html"
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +33,7 @@ class CreateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateVie
     template_name = "CreationPage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_statuses")
-    success_message = gettext('Status created')
+    success_message = gettext("Status created")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -54,7 +51,7 @@ class UpdateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateVie
     template_name = "UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_statuses")
-    success_message = gettext('Status Updated')
+    success_message = gettext("Status Updated")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,9 +64,9 @@ class UpdateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateVie
 class DeleteStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = StatusModel
     success_message = gettext("Status deleted")
-    success_url = reverse_lazy('all_statuses')
-    template_name = 'DeletePage.html'
-    login_url = reverse_lazy('login')
+    success_url = reverse_lazy("all_statuses")
+    template_name = "DeletePage.html"
+    login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -1,10 +1,15 @@
 django-dev:
 	poetry run python manage.py runserver
 
-make migrate:
+migrate:
 	poetry run python manage.py makemigrations statuses labels tasks
 	poetry run python manage.py migrate
 
-make new-tables:
-	poetry run python manage.py makemigrations
-	poetry run python manage.py migrate --run-syncdb
+lint:
+	poetry run flake8 task_manager
+
+test:
+	poetry run pytest
+
+test-cov:
+	poetry run pytest --cov=task_manager . --cov-report xml

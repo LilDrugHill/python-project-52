@@ -68,9 +68,9 @@ def logout_user(request):
 
 
 class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
-    success_message = gettext('User data updated')
-    success_url = reverse_lazy('home')
-    login_url = reverse_lazy('login')
+    success_message = gettext("User data updated")
+    success_url = reverse_lazy("home")
+    login_url = reverse_lazy("login")
 
     def post(self, request, *args, **kwargs):
         user_form = UserUpdateForm(request.POST, instance=request.user)
@@ -80,7 +80,7 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
             user_form.save()
             password_form.save()
             update_session_auth_hash(request, request.user)
-            messages.add_message(request, messages.INFO, gettext('User updated'))
+            messages.add_message(request, messages.INFO, gettext("User updated"))
             return redirect("home")
         else:
             return render(
@@ -95,9 +95,13 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
 
     def get(self, request, pk, *args, **kwargs):
         if request.user.pk == pk:
-            user_form = UserUpdateForm(initial={'username': request.user.username,
-                                                'first_name': request.user.first_name,
-                                                'last_name': request.user.last_name})
+            user_form = UserUpdateForm(
+                initial={
+                    "username": request.user.username,
+                    "first_name": request.user.first_name,
+                    "last_name": request.user.last_name,
+                }
+            )
             password_form = PasswordChangeForm(request.user)
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
@@ -111,17 +115,17 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
                 "password_form": password_form,
                 "menu": menu,
                 "title": "Update user data page",
-                "username": request.user.username
+                "username": request.user.username,
             },
         )
 
 
 class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = User
-    success_url = reverse_lazy('home')
-    success_message = gettext('User deleted')
-    template_name = 'DeletePage.html'
-    login_url = reverse_lazy('login')
+    success_url = reverse_lazy("home")
+    success_message = gettext("User deleted")
+    template_name = "DeletePage.html"
+    login_url = reverse_lazy("login")
 
     def get(self, request, pk, *args, **kwargs):
         if pk == request.user.pk:
@@ -130,8 +134,12 @@ class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
                 User.objects.get(pk=pk).delete()
                 messages.add_message(request, messages.INFO, "User deleted")
                 return redirect(reverse_lazy("home"))
-            messages.add_message(request, messages.ERROR, gettext('Cannot delete user because it is in use'))
-            return redirect(reverse_lazy('all_users'))
+            messages.add_message(
+                request,
+                messages.ERROR,
+                gettext("Cannot delete user because it is in use"),
+            )
+            return redirect(reverse_lazy("all_users"))
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
             return redirect(reverse_lazy("home"))

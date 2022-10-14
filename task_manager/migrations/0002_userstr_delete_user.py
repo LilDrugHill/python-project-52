@@ -7,26 +7,25 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('auth', '0012_alter_user_first_name_max_length'),
-        ('task_manager', '0001_initial'),
+        ("auth", "0012_alter_user_first_name_max_length"),
+        ("task_manager", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserStr',
-            fields=[
-            ],
+            name="UserStr",
+            fields=[],
             options={
-                'proxy': True,
-                'indexes': [],
-                'constraints': [],
+                "proxy": True,
+                "indexes": [],
+                "constraints": [],
             },
-            bases=('auth.user',),
+            bases=("auth.user",),
             managers=[
-                ('objects', django.contrib.auth.models.UserManager()),
+                ("objects", django.contrib.auth.models.UserManager()),
             ],
         ),
         migrations.DeleteModel(
-            name='User',
+            name="User",
         ),
     ]

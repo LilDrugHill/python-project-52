@@ -21,7 +21,7 @@ from .filters import TaskFilter
 class ShowAllTasks(DataMixin, LoginRequiredMixin, ListView):
     model = TaskModel
     template_name = "tasks/PageWithTasks.html"
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -52,7 +52,7 @@ class ShowTask(DataMixin, LoginRequiredMixin, DetailView):
     model = TaskModel
     context_object_name = "task"
     template_name = "tasks/task.html"
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -82,7 +82,7 @@ class CreateTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView)
     success_url = reverse_lazy("all_tasks")
     login_url = reverse_lazy("login")
     success_message = gettext("Task created")
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def form_valid(self, form):
         form.instance.author = self.request.user
@@ -104,7 +104,7 @@ class UpdateTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView)
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_tasks")
     success_message = gettext("Task updated")
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -119,7 +119,7 @@ class DeleteTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
     success_url = reverse_lazy("all_tasks")
     template_name = "DeletePage.html"
     success_message = gettext("Task deleted")
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def get(self, request, pk, *args, **kwargs):
         if request.user.pk == TaskModel.objects.get(pk=pk).author.pk:

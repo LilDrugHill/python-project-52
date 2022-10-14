@@ -4,8 +4,7 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -13,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 class ShowAllLabels(DataMixin, LoginRequiredMixin, ListView):
     model = LabelModel
     template_name = "PageWithAll.html"
-    login_url = reverse_lazy('login')
+    login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -36,7 +35,7 @@ class CreateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView
     template_name = "CreationPage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_labels")
-    success_message = gettext('Label created')
+    success_message = gettext("Label created")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -67,16 +66,20 @@ class UpdateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
 class DeleteLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = LabelModel
     success_message = gettext("Label deleted")
-    success_url = reverse_lazy('all_labels')
-    template_name = 'DeletePage.html'
-    login_url = reverse_lazy('login')
+    success_url = reverse_lazy("all_labels")
+    template_name = "DeletePage.html"
+    login_url = reverse_lazy("login")
 
     def get(self, request, pk, *args, **kwargs):
         if LabelModel.objects.get(pk=pk).taskmodel_set.count() == 0:
             return super().get(self, request, *args, **kwargs)
         else:
-            messages.add_message(request, messages.ERROR, gettext("Can't delete label because it's in use"))
-            return redirect(reverse_lazy('all_labels'))
+            messages.add_message(
+                request,
+                messages.ERROR,
+                gettext("Can't delete label because it's in use"),
+            )
+            return redirect(reverse_lazy("all_labels"))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
