@@ -20,13 +20,15 @@ from task_manager import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.HomePageView.greetings, name='home'),
-    path('users/create/', RegisterUser.as_view(), name='register'),
-    path('users/delete_all_of_them', views.UserPage.clear_table),
-    path('login/', views.LoginUser.as_view(), name='login'),
-    path('logout/', views.logout_user, name='logout'),
-    path('users/', views.ShowAllUsers.as_view(), name='all_users'),
-    path('users/<int:pk>/update/', views.update_user_data, name='update'),
-    path('users/<int:pk>/delete/', views.delete_user, name='delete'),
+    path("admin/", admin.site.urls),
+    path("", views.HomePageView.as_view(), name="home"),
+    path("users/", views.ShowAllUsers.as_view(), name="all_users"),
+    path("users/create/", RegisterUser.as_view(), name="register"),
+    path("users/<int:pk>/update/", views.UpdateUserData.as_view(), name="update_user"),
+    path("users/<int:pk>/delete/", views.DeleteUser.as_view(), name="delete_user"),
+    path("login/", views.LoginUser.as_view(), name="login"),
+    path("logout/", views.logout_user, name="logout"),
+    path("statuses/", include("task_manager.statuses.urls")),
+    path("labels/", include("task_manager.labels.urls")),
+    path('tasks/', include("task_manager.tasks.urls")),
 ]

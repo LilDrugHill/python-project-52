@@ -1,0 +1,19 @@
+{% extends 'task_manager/base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+<table>
+    <tr><td>{{ table_words.name}}</td><td>{{ task.name }}</td></tr>
+    <tr><td>{{ table_words.description }}</td><td>{{ task.description }}</td></tr>
+    <tr><td>{{ table_words.author }}</td><td>{{ task.author }}</td></tr>
+    <tr><td>{{ table_words.executor }}</td><td>{{ task.executor }}</td></tr>
+    <tr><td>{{ table_words.status }}</td><td>{{ task.status }}</td></tr>
+    <tr><td>{{ table_words.created_at }}</td><td>{{ task.created_at }}</td></tr>
+    <tr><td>{{ table_words.labels }}:</td><td><ul>
+                                                {% for label in task.labels.all %}
+                                                    <li>{{ label.name }}</li>
+                                                {% endfor %}
+                                             </ul></tr>
+</table>
+<a href="{% url update_page pk=task.pk %}">{{ update_word }}</a>|<a href="{% url delete_page pk=task.pk%}">{{ delete_word }}</a>
+{% endblock %}

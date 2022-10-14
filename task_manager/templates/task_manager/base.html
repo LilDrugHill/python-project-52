@@ -2,38 +2,32 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Task manager</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% load bootstrap4 %}
+	{% bootstrap_css %}
+	{% bootstrap_javascript jquery='full' %}
 </head>
-<body>
-
-      <table class="table-page" border=0 cellpadding="0" cellspacing="0">
-<tr><td valign=top>
+<body class="container">
 {% block mainmenu %}
-    <nav>
-		<div class="header">
-			<ul id="mainmenu" class="mainmenu">
+<nav class="navbar navbar-default">
+	<div class="container-fluid">
+		<ul class="navbar-nav mr-auto">
 
-{% for m in menu %}
-			<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
-{% endfor %}
-				{% if request.user.is_authenticated %}
-				<li class="last">{{ user.username }} | <a href="{% url 'logout' %}">Logout</a>></li>
-				{% else %}
-				<li class="last"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
-				{% endif %}
-			</ul>
-			<div class="clear"></div>
-		</div>
+		{% for m in menu %}
+		<li class="nav-item"><a href="{% url m.url_name %}">{{m.title}}</a></li>
+		{% endfor %}
+			{% if request.user.is_authenticated %}
+			<li class="nav-item">{{ user.username }} | <a href="{% url 'logout' %}">Logout</a>></li>
+			{% else %}
+			<li class="nav-item"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+			{% endif %}
+		</ul>
+	</div>
+</nav>
 {% endblock mainmenu %}
-    </nav>
+{% bootstrap_messages %}
 {% block content %}
 {% endblock %}
-	{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 </body>
 </html>

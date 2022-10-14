@@ -1,0 +1,29 @@
+{% extends 'task_manager/base.html' %}
+
+{% block content %}
+
+<h1>{{title}}</h1>
+<form method="get">
+    {{ filter.form }}
+    <button type="submit">Search</button>
+</form>
+<table>
+    <a href="{{ creation_page }}">{{ creation_title }}</a>
+    <tr><td>{{ table_words.id }}</td>
+        <td>{{ table_words.name }}</td>
+        <td>{{ table_words.status }}</td>
+        <td>{{ table_words.author }}</td>
+        <td>{{ table_words.executor }}</td>
+        <td>{{ table_words.created_at }}</td><td></td></tr>
+    {% for p in filter.qs %}
+    <tr><td>{{ p.id }}</td>
+        <td><a href='{% url "show_task" pk=p.pk %}'>{{ p.name }}</a></td>
+        <td>{{ p.status.name }}</td>
+        <td>{{ p.author }}</td>
+        <td>{{ p.executor }}</td>
+        <td>{{ p.created_at }}</td>
+        <td><a href="{% url update_page pk=p.pk %}">{{ update_word }}</a>|<a href="{% url delete_page pk=p.pk%}">{{ delete_word }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}

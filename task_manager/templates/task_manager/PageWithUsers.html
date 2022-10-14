@@ -5,7 +5,7 @@
 <table>
     <tr><td>user_id</td><td>username</td><td>full name</td><td>creation date</td><td>/</td></tr>
     {% for p in object_list %}
-    <tr><td>{{ p.id }}</td><td>{{ p.username }}</td><td>{{ p.get_full_name }}</td><td>{{ p.date_joined }}</td><td><a href="{% url 'update' pk=p.pk %}">Update</a>|<a href="{% url 'delete' pk=p.pk%}">Delete</a></td> </tr>
+    <tr><td>{{ p.id }}</td><td>{{ p.username }}</td><td>{{ p.get_full_name }}</td><td>{{ p.date_joined }}</td><td><a href="{% url 'update_user' pk=p.pk %}">Update</a>|<a href="{% url 'delete_user' pk=p.pk%}">Delete</a></td> </tr>
     {% endfor %}
 </table>
 {% endblock %}

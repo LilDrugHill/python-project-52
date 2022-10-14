@@ -6,76 +6,57 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
-from django.views.generic import CreateView, ListView
+from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from .forms import RegisterUserForm, UserUpdateForm
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
+from .utils import DataMixin, menu
 
 
-menu = [
-    {'title': 'All users', 'url_name': 'all_users'},
-    {'title': 'Home', 'url_name': 'home'},
-]
+class HomePageView(DataMixin, TemplateView):
+    template_name = "task_manager/base.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Home page")
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-class HomePageView(TemplateView):
-
-    def greetings(request, messages=messages):
-        return render(request, 'task_manager/base.html', context={
-            'project_name': gettext('Task manager'),
-            'greeting_massage': gettext('My simple hexlet-project, where you can manage your tasks'),
-            'test_string': None,
-            'message': messages.get_messages(request),
-            'menu': menu
-        })
-
-
-class UserPage(TemplateView):
-
-    def get_users(request):
-        return render()
-
-
-    def clear_table(request):
-        User.objects.all().delete()
-        messages.add_message(request, messages.INFO, 'Table is clear')
-        return redirect('HomePage')
-
-
-class RegisterUser(CreateView):
+class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
-    template_name = 'task_manager/SignUpPage.html'
-    success_url = reverse_lazy('home')
-    success_message = 'Success'
+    template_name = "task_manager/SignUpPage.html"
+    success_url = reverse_lazy("home")
+    success_message = gettext("You have been successfully registered")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        return context
+        c_def = self.get_user_context(title="Reg page")
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-class LoginUser(SuccessMessageMixin, LoginView):
+class LoginUser(DataMixin, SuccessMessageMixin, LoginView):
     form_class = AuthenticationForm
-    template_name = 'task_manager/SignInPage.html'
-    success_url = reverse_lazy('home')
-    success_message = 'Successfully login'
+    template_name = "task_manager/SignInPage.html"
+    success_url = reverse_lazy("home")
+    success_message = "Successfully login"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        return context
+        c_def = self.get_user_context(title="Log page")
+        return dict(list(context.items()) + list(c_def.items()))
 
 
-class ShowAllUsers(ListView):
+class ShowAllUsers(DataMixin, ListView):
     model = User
-    template_name = 'task_manager/PageWithUsers.html'
+    template_name = "task_manager/PageWithUsers.html"
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['menu'] = menu
-        return context
+        c_def = self.get_user_context(title="All users page")
+        return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
         return User.objects.filter(is_staff=False)
@@ -83,12 +64,15 @@ class ShowAllUsers(ListView):
 
 def logout_user(request):
     logout(request)
-    return redirect('home')
+    return redirect("home")
 
 
-@login_required(login_url='login')
-def update_user_data(request, pk):
-    if request.method == 'POST':
+class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    success_message = gettext('User data updated')
+    success_url = reverse_lazy('home')
+    login_url = reverse_lazy('login')
+
+    def post(self, request, *args, **kwargs):
         user_form = UserUpdateForm(request.POST, instance=request.user)
         password_form = PasswordChangeForm(request.user, request.POST)
 
@@ -96,36 +80,58 @@ def update_user_data(request, pk):
             user_form.save()
             password_form.save()
             update_session_auth_hash(request, request.user)
-            return redirect('home')
+            messages.add_message(request, messages.INFO, gettext('User updated'))
+            return redirect("home")
         else:
-            return render(request, 'task_manager/UpdateUserPage.html', context={
-                'user_form': user_form,
-                'password_form': password_form,
-                'menu': menu
-            })
+            return render(
+                request,
+                "task_manager/UpdateUserPage.html",
+                context={
+                    "user_form": user_form,
+                    "password_form": password_form,
+                    "menu": menu,
+                },
+            )
 
-    else:
+    def get(self, request, pk, *args, **kwargs):
         if request.user.pk == pk:
-            user_form = UserUpdateForm()
+            user_form = UserUpdateForm(initial={'username': request.user.username,
+                                                'first_name': request.user.first_name,
+                                                'last_name': request.user.last_name})
             password_form = PasswordChangeForm(request.user)
         else:
-            messages.add_message(request, messages.ERROR, 'You are betrayer')
-            return redirect('home')
+            messages.add_message(request, messages.ERROR, "You are betrayer")
+            return redirect("home")
 
-    return render(request, 'task_manager/UpdateUserPage.html', context={
-        'user_form': user_form,
-        'password_form': password_form,
-        'menu': menu
-    })
+        return render(
+            request,
+            "task_manager/UpdateUserPage.html",
+            context={
+                "user_form": user_form,
+                "password_form": password_form,
+                "menu": menu,
+                "title": "Update user data page",
+                "username": request.user.username
+            },
+        )
 
 
-@login_required(login_url='login')
-def delete_user(request, pk):
-    if pk == request.user.pk:
-        logout(request)
-        User.objects.get(pk=pk).delete()
-        messages.add_message(request, messages.INFO, 'User successfully deleted')
-        return redirect('home')
-    else:
-        messages.add_message(request, messages.ERROR, 'You are betrayer')
-        return redirect('home')
+class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
+    model = User
+    success_url = reverse_lazy('home')
+    success_message = gettext('User deleted')
+    template_name = 'DeletePage.html'
+    login_url = reverse_lazy('login')
+
+    def get(self, request, pk, *args, **kwargs):
+        if pk == request.user.pk:
+            if not request.user.author.count() and not request.user.executor.count():
+                logout(request)
+                User.objects.get(pk=pk).delete()
+                messages.add_message(request, messages.INFO, "User deleted")
+                return redirect(reverse_lazy("home"))
+            messages.add_message(request, messages.ERROR, gettext('Cannot delete user because it is in use'))
+            return redirect(reverse_lazy('all_users'))
+        else:
+            messages.add_message(request, messages.ERROR, "You are betrayer")
+            return redirect(reverse_lazy("home"))
