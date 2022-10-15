@@ -1,5 +1,5 @@
 {% extends 'task_manager/base.html' %}
-
+{% load i18n %}
 {% block content %}
 <h1>{{title}}</h1>
 
@@ -11,7 +11,7 @@
 <div class="form-error">{{ f.errors }}</div>
 {% endfor %}
 
-    <button type="submit">Registration</button>
+    <button type="submit">{% trans "Register" %}</button>
 </form>
 
 {% endblock %}
