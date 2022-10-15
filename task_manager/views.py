@@ -41,11 +41,11 @@ class LoginUser(DataMixin, SuccessMessageMixin, LoginView):
     form_class = AuthenticationForm
     template_name = "task_manager/SignInPage.html"
     success_url = reverse_lazy("home")
-    success_message = "Successfully login"
+    success_message = gettext("Successfully login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="Log page")
+        c_def = self.get_user_context(title=gettext("Login page"))
         return dict(list(context.items()) + list(c_def.items()))
 
 
@@ -55,7 +55,11 @@ class ShowAllUsers(DataMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title="All users page")
+        c_def = self.get_user_context(
+            title=gettext("All users page"),
+            update_word=gettext("Update"),
+            delete_word=gettext("Delete"),
+        )
         return dict(list(context.items()) + list(c_def.items()))
 
     def get_queryset(self):
@@ -80,7 +84,6 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
             user_form.save()
             password_form.save()
             update_session_auth_hash(request, request.user)
-            messages.add_message(request, messages.INFO, gettext("User updated"))
             return redirect("home")
         else:
             return render(
@@ -130,10 +133,8 @@ class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
     def get(self, request, pk, *args, **kwargs):
         if pk == request.user.pk:
             if not request.user.author.count() and not request.user.executor.count():
-                logout(request)
-                User.objects.get(pk=pk).delete()
-                messages.add_message(request, messages.INFO, "User deleted")
-                return redirect(reverse_lazy("home"))
+                return super(DeleteUser, self).get(self, request, *args, **kwargs)
+                
             messages.add_message(
                 request,
                 messages.ERROR,
@@ -143,3 +144,8 @@ class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
             return redirect(reverse_lazy("home"))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_user_context(title="Delete user page")
+        return dict(list(context.items()) + list(c_def.items()))

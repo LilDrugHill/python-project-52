@@ -2,8 +2,8 @@ from django.utils.translation import gettext
 
 
 menu = [
+    {"title": gettext("Task manager"), "url_name": "home"},
     {"title": gettext("All users"), "url_name": "all_users"},
-    {"title": gettext("Home"), "url_name": "home"},
     {"title": gettext("Statuses"), "url_name": "all_statuses"},
     {"title": gettext("Labels"), "url_name": "all_labels"},
     {"title": gettext("Tasks"), "url_name": "all_tasks"},

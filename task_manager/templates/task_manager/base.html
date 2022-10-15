@@ -7,6 +7,7 @@
 	{% load bootstrap4 %}
 	{% bootstrap_css %}
 	{% bootstrap_javascript jquery='full' %}
+	{% load i18n %}
 </head>
 <body class="container">
 {% block mainmenu %}
@@ -18,9 +19,9 @@
 		<li class="nav-item"><a href="{% url m.url_name %}">{{m.title}}</a></li>
 		{% endfor %}
 			{% if request.user.is_authenticated %}
-			<li class="nav-item">{{ user.username }} | <a href="{% url 'logout' %}">Logout</a>></li>
+			<li class="nav-item">{{ user.username }} | <a href="{% url 'logout' %}">{% trans 'Logout' %}</a>></li>
 			{% else %}
-			<li class="nav-item"><a href="{% url 'register' %}">Регистрация</a> | <a href="{% url 'login' %}">Войти</a></li>
+			<li class="nav-item"><a href="{% url 'register' %}">{% trans 'Registration' %}</a> | <a href="{% url 'login' %}">{% trans "Login" %}</a></li>
 			{% endif %}
 		</ul>
 	</div>
