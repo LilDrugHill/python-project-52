@@ -8,12 +8,12 @@ from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from .forms import RegisterUserForm, UserUpdateForm
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .utils import DataMixin, menu
+from .forms import RegisterUserForm, UserUpdateForm, CustomAuthenticationForm
 
 
 class HomePageView(DataMixin, TemplateView):
@@ -38,7 +38,7 @@ class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
 
 
 class LoginUser(DataMixin, SuccessMessageMixin, LoginView):
-    form_class = AuthenticationForm
+    form_class = CustomAuthenticationForm
     template_name = "task_manager/SignInPage.html"
     success_url = reverse_lazy("home")
     success_message = gettext("Successfully login")
