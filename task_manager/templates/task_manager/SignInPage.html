@@ -8,10 +8,10 @@
     {{ form.non_field_errors }}
 
 {% for f in form %}
-<p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}</label>{{ f }}</p>
+<p><label class="form-label">{{f.label}}</label>{{ f }}</p>
 {% endfor %}
 
-    <button type="submit">{% trans "Login" %}</button>
+    <button type="submit">{% trans "Log in" %}</button>
 </form>
 
 {% endblock %}
