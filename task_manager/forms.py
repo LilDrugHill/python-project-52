@@ -54,7 +54,7 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = UsernameField(widget=forms.TextInput(attrs={"autofocus": True, 'placeholder': gettext('Username')}))
+    username = UsernameField(label_suffix='', widget=forms.TextInput(attrs={"autofocus": True, 'placeholder': gettext('Username')}))
     password = forms.CharField(
         label=_("Password"),
         strip=False,

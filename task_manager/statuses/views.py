@@ -6,6 +6,8 @@ from django.urls import reverse_lazy
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
+from .forms import StatusForm
+
 
 class ShowAllStatuses(DataMixin, LoginRequiredMixin, ListView):
     model = StatusModel
@@ -45,8 +47,8 @@ class CreateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateVie
 
 
 class UpdateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
+    form_class = StatusForm
     model = StatusModel
-    fields = ["name"]
 
     template_name = "UpdatePage.html"
     login_url = reverse_lazy("login")

@@ -1,11 +1,11 @@
 {% extends 'task_manager/base.html' %}
-
+{% load i18n %}
 {% block content %}
 
 <h1>{{title}}</h1>
 <form method="get">
     {{ filter.form }}
-    <button type="submit">Search</button>
+    <button type="submit">{% trans 'Show' %}</button>
 </form>
 <table>
     <a href="{{ creation_page }}">{{ creation_title }}</a>

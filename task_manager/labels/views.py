@@ -8,6 +8,8 @@ from django.shortcuts import redirect
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
+from .forms import LabelForm
+
 
 class ShowAllLabels(DataMixin, LoginRequiredMixin, ListView):
     model = LabelModel
@@ -48,7 +50,7 @@ class CreateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView
 
 class UpdateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     model = LabelModel
-    fields = ["name"]
+    form_class = LabelForm
 
     template_name = "UpdatePage.html"
     login_url = reverse_lazy("login")

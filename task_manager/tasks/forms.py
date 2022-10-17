@@ -5,6 +5,7 @@ from django.utils.translation import gettext
 
 class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
+        kwargs.setdefault('label_suffix', '')
         super().__init__(*args, **kwargs)
         self.fields["status"].empty_label = gettext("Status not selected")
         self.fields["executor"].empty_label = gettext("Executor not selected")

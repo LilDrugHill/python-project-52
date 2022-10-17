@@ -103,9 +103,10 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
                     "username": request.user.username,
                     "first_name": request.user.first_name,
                     "last_name": request.user.last_name,
-                }
+                },
+                label_suffix=''
             )
-            password_form = PasswordChangeForm(request.user)
+            password_form = PasswordChangeForm(request.user, label_suffix='')
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
             return redirect("home")
