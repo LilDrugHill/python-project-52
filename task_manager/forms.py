@@ -13,14 +13,19 @@ class RegisterUserForm(UserCreationForm):
     password1 = forms.CharField(
         label=_("Password"),
         strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password",
-                                          'placeholder': gettext('Password')}),
+        widget=forms.PasswordInput(
+            attrs={"autocomplete": "new-password", "placeholder": gettext("Password")}
+        ),
         help_text=password_validation.password_validators_help_text_html(),
     )
     password2 = forms.CharField(
         label=_("Password confirmation"),
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password",
-                                          'placeholder': gettext('Password confirmation')}),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "placeholder": gettext("Password confirmation"),
+            }
+        ),
         strip=False,
         help_text=_("Enter the same password as before, for verification."),
     )
@@ -29,9 +34,9 @@ class RegisterUserForm(UserCreationForm):
         model = User
         fields = ("username", "first_name", "last_name", "password1", "password2")
         widgets = {
-            "first_name": forms.TextInput(attrs={'placeholder': gettext('Name')}),
-            "last_name": forms.TextInput(attrs={'placeholder': gettext('Last name')}),
-            "username": forms.TextInput(attrs={'placeholder': gettext('Username')}),
+            "first_name": forms.TextInput(attrs={"placeholder": gettext("Name")}),
+            "last_name": forms.TextInput(attrs={"placeholder": gettext("Last name")}),
+            "username": forms.TextInput(attrs={"placeholder": gettext("Username")}),
         }
 
     def clean_username(self):  # User validator clean_[field]
@@ -54,11 +59,25 @@ class UserUpdateForm(forms.ModelForm):
 
 
 class CustomAuthenticationForm(AuthenticationForm):
-    username = UsernameField(label_suffix='', widget=forms.TextInput(attrs={"autofocus": True, 'placeholder': gettext('Username')}))
+    username = UsernameField(
+        label_suffix="",
+        widget=forms.TextInput(
+            attrs={
+                "autofocus": True,
+                "placeholder": gettext("Username"),
+                "text": gettext("Username"),
+            }
+        ),
+    )
     password = forms.CharField(
         label=_("Password"),
         strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "current-password", 'placeholder': gettext('Password')}),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "current-password",
+                "placeholder": gettext("Password"),
+            }
+        ),
     )
 
     class Meta:

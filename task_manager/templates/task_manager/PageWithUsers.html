@@ -4,9 +4,9 @@
 {% block content %}
 <h1>{{title}}</h1>
 <table>
-    <tr><td>{% trans 'ID' %}</td><td>{% trans 'Username' %}</td><td>{% trans 'Full name' %}</td><td>{% trans 'Creation date' %}</td><td>/</td></tr>
+    <tr><td>{% trans 'ID' %}</td><td>{% trans 'Username' %}</td><td>{% trans 'Full name' %}</td><td>{% trans 'Creation date' %}</td></tr>
     {% for p in object_list %}
-    <tr><td>{{ p.id }}</td><td>{{ p.username }}</td><td>{{ p.get_full_name }}</td><td>{{ p.date_joined }}</td><td><a href="{% url 'update_user' pk=p.pk %}">{{ update_word }}</a>|<a href="{% url 'delete_user' pk=p.pk%}">{{ delete_word }}</a></td> </tr>
+    <tr><td>{{ p.id }}</td><td>{{ p.username }}</td><td>{{ p.get_full_name }}</td><td>{{ p.date_joined }}</td><td><a href="{% url 'update_user' pk=p.pk %}">{{ update_word }}</a> | <a href="{% url 'delete_user' pk=p.pk%}">{{ delete_word }}</a></td> </tr>
     {% endfor %}
 </table>
 {% endblock %}

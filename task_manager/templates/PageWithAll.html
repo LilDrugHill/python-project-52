@@ -6,7 +6,7 @@
     <a href="{{ creation_page }}">{{ creation_title }}</a>
     <tr><td>{% trans 'ID' %}</td><td>{% trans 'Name' %}</td><td>{% trans 'Creation date' %}</td><td>/</td></tr>
     {% for p in object_list %}
-    <tr><td>{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.created_at }}</td><td><a href="{% url update_page pk=p.pk %}">{{ update_word }}</a>|<a href="{% url delete_page pk=p.pk%}">{{ delete_word }}</a></td> </tr>
+    <tr><td>{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.created_at }}</td><td><a href="{% url update_page pk=p.pk %}">{{ update_word }}</a> | <a href="{% url delete_page pk=p.pk%}">{{ delete_word }}</a></td> </tr>
     {% endfor %}
 </table>
 {% endblock %}

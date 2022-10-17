@@ -33,7 +33,7 @@ class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        c_def = self.get_user_context(title=gettext('Registration page'))
+        c_def = self.get_user_context(title=gettext("Registration page"))
         return dict(list(context.items()) + list(c_def.items()))
 
 
@@ -104,9 +104,9 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
                     "first_name": request.user.first_name,
                     "last_name": request.user.last_name,
                 },
-                label_suffix=''
+                label_suffix="",
             )
-            password_form = PasswordChangeForm(request.user, label_suffix='')
+            password_form = PasswordChangeForm(request.user, label_suffix="")
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
             return redirect("home")
@@ -135,7 +135,7 @@ class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
         if pk == request.user.pk:
             if not request.user.author.count() and not request.user.executor.count():
                 return super(DeleteUser, self).get(self, request, *args, **kwargs)
-                
+
             messages.add_message(
                 request,
                 messages.ERROR,
