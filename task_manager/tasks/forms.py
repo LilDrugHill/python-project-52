@@ -16,4 +16,12 @@ class TaskForm(forms.ModelForm):
     class Meta:
         model = TaskModel
         fields = ("name", "description", "status", "executor", "labels")
-        widgets = {"author": forms.HiddenInput()}
+        widgets = {
+                    "author": forms.HiddenInput(attrs={'class': 'form-control'}),
+                    "name": forms.TextInput(attrs={'class': 'form-control'}),
+                    "description": forms.TextInput(attrs={'class': 'form-control'}),
+                    "status": forms.Select(attrs={'class': 'form-control'}),
+                    "executor": forms.Select(attrs={'class': 'form-control'}),
+                    "labels": forms.SelectMultiple(attrs={'class': 'form-control'}),
+        }
+

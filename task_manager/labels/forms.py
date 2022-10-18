@@ -1,5 +1,6 @@
 from django import forms
 from .models import LabelModel
+from django.utils.translation import gettext
 
 
 class LabelForm(forms.ModelForm):
@@ -10,3 +11,8 @@ class LabelForm(forms.ModelForm):
     class Meta:
         model = LabelModel
         fields = "__all__"
+        widgets = {
+            "name": forms.TextInput(attrs={"placeholder": gettext("Name"),
+                                           "class": "form-control"}),
+
+        }

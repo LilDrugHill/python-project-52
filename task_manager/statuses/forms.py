@@ -1,5 +1,6 @@
 from django import forms
 from .models import StatusModel
+from django.utils.translation import gettext
 
 
 class StatusForm(forms.ModelForm):
@@ -9,4 +10,10 @@ class StatusForm(forms.ModelForm):
 
     class Meta:
         model = StatusModel
-        fields = "__all__"
+        fields = ("name",)
+        widgets = {
+            "name": forms.TextInput(attrs={"placeholder": gettext("Name"),
+                                           "class": "form-control"}),
+
+        }
+
