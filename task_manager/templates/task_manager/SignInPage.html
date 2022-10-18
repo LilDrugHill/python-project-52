@@ -10,8 +10,7 @@
 {% for f in form %}
 <p><label class="form-label">{{f.label}}</label>{{ f }}</p>
 {% endfor %}
-
-    <button type="submit">{% trans "Log in" %}</button>
+    <input class="btn btn-primary" type="submit" value='{% trans "Log in" %}'>
 </form>
 
 {% endblock %}
