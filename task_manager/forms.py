@@ -14,7 +14,7 @@ class RegisterUserForm(UserCreationForm):
         label=_("Password"),
         strip=False,
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "new-password", "placeholder": gettext("Password")}
+            attrs={"autocomplete": "new-password", "placeholder": gettext("Password"), 'class': 'form-control'}
         ),
         help_text=password_validation.password_validators_help_text_html(),
     )
@@ -24,6 +24,7 @@ class RegisterUserForm(UserCreationForm):
             attrs={
                 "autocomplete": "new-password",
                 "placeholder": gettext("Password confirmation"),
+                'class': 'form-control',
             }
         ),
         strip=False,
@@ -34,9 +35,9 @@ class RegisterUserForm(UserCreationForm):
         model = User
         fields = ("username", "first_name", "last_name", "password1", "password2")
         widgets = {
-            "first_name": forms.TextInput(attrs={"placeholder": gettext("Name")}),
-            "last_name": forms.TextInput(attrs={"placeholder": gettext("Last name")}),
-            "username": forms.TextInput(attrs={"placeholder": gettext("Username")}),
+            "first_name": forms.TextInput(attrs={"placeholder": gettext("Name"), 'class': 'form-control'}, ),
+            "last_name": forms.TextInput(attrs={"placeholder": gettext("Last name"), 'class': 'form-control'}),
+            "username": forms.TextInput(attrs={"placeholder": gettext("Username"), 'class': 'form-control'}),
         }
 
     def clean_username(self):  # User validator clean_[field]
@@ -65,7 +66,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             attrs={
                 "autofocus": True,
                 "placeholder": gettext("Username"),
-                "text": gettext("Username"),
+                'class': 'form-control'
             }
         ),
     )
@@ -76,6 +77,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             attrs={
                 "autocomplete": "current-password",
                 "placeholder": gettext("Password"),
+                'class': 'form-control',
             }
         ),
     )
