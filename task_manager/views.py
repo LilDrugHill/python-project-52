@@ -7,7 +7,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth import logout, update_session_auth_hash
 from django.contrib.auth.forms import AuthenticationForm, PasswordChangeForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
-from django.urls import reverse_lazy
+from django.urls import reverse_lazy, reverse
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -40,7 +40,7 @@ class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
 class LoginUser(DataMixin, SuccessMessageMixin, LoginView):
     form_class = CustomAuthenticationForm
     template_name = "task_manager/SignInPage.html"
-    success_url = reverse_lazy("home")
+    success_url = reverse("home")
     success_message = gettext("Successfully login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
