@@ -28,7 +28,7 @@ class HomePageView(DataMixin, TemplateView):
 class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = "task_manager/SignUpPage.html"
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy('login')
     success_message = gettext("You have been successfully registered")
 
     def get_context_data(self, *, object_list=None, **kwargs):
