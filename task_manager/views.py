@@ -78,7 +78,6 @@ def logout_user(request):
 
 class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = gettext("User data updated")
-    success_url = reverse_lazy("all_users")
     login_url = reverse_lazy("login")
 
     def post(self, request, *args, **kwargs):
@@ -92,7 +91,7 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
             messages.add_message(
                 request, messages.INFO, gettext("User changed successfully")
             )
-            return redirect("home")
+            return redirect("all_users")
         else:
             return render(
                 request,
