@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-20 14:28+0300\n"
+"POT-Creation-Date: 2022-10-20 15:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -72,13 +72,15 @@ msgid "Create label"
 msgstr "Создать метку"
 
 #: task_manager/labels/views.py:27 task_manager/labels/views.py:63
-#: task_manager/statuses/views.py:25 task_manager/statuses/views.py:61
+#: task_manager/statuses/views.py:27 task_manager/statuses/views.py:63
 #: task_manager/tasks/views.py:34 task_manager/tasks/views.py:61
-#: task_manager/tasks/views.py:112 task_manager/views.py:64
+#: task_manager/tasks/views.py:112
+#: task_manager/templates/task_manager/UpdateUserPage.html:10
+#: task_manager/views.py:64
 msgid "Update"
 msgstr "Изменить"
 
-#: task_manager/labels/views.py:28 task_manager/statuses/views.py:26
+#: task_manager/labels/views.py:28 task_manager/statuses/views.py:28
 #: task_manager/tasks/views.py:35 task_manager/tasks/views.py:62
 #: task_manager/views.py:65
 msgid "Delete"
@@ -108,35 +110,39 @@ msgstr "Невозможно удалить метку, потому что он
 msgid "Delete label page"
 msgstr "Удаление метки"
 
-#: task_manager/statuses/views.py:20
+#: task_manager/statuses/views.py:22
 msgid "All statuses page"
 msgstr "Статусы"
 
-#: task_manager/statuses/views.py:21 task_manager/statuses/views.py:44
+#: task_manager/statuses/views.py:23 task_manager/statuses/views.py:46
 msgid "Create status"
 msgstr "Создать статус"
 
-#: task_manager/statuses/views.py:38
+#: task_manager/statuses/views.py:40
 msgid "Status created"
 msgstr "Статус успешно создан"
 
-#: task_manager/statuses/views.py:43
+#: task_manager/statuses/views.py:45
 msgid "Status creation page"
 msgstr "Страница создания статуса"
 
-#: task_manager/statuses/views.py:56
+#: task_manager/statuses/views.py:58
 msgid "Status Updated"
 msgstr "Статус успешно изменён"
 
-#: task_manager/statuses/views.py:61
+#: task_manager/statuses/views.py:63
 msgid "Update status page"
 msgstr "Страница обновления статуса"
 
-#: task_manager/statuses/views.py:68
+#: task_manager/statuses/views.py:70
 msgid "Status deleted"
 msgstr "Статус успещно удален"
 
-#: task_manager/statuses/views.py:75
+#: task_manager/statuses/views.py:82
+msgid "Can't delete status because it's in use"
+msgstr "Невозможно удалить статус, потому что она используется"
+
+#: task_manager/statuses/views.py:88
 msgid "Delete status page"
 msgstr "Удаление статуса"
 
@@ -297,19 +303,19 @@ msgstr "Вы разлогинены"
 msgid "User data updated"
 msgstr "Пользователь успешно изменён"
 
-#: task_manager/views.py:93
+#: task_manager/views.py:92
 msgid "User changed successfully"
 msgstr "Пользователь успешно изменён"
 
-#: task_manager/views.py:138
+#: task_manager/views.py:137
 msgid "User deleted"
 msgstr "Пользователь успешно удалён"
 
-#: task_manager/views.py:150
+#: task_manager/views.py:149
 msgid "Cannot delete user because it is in use"
 msgstr "Невозможно удалить пользователя, потому что он используется"
 
-#: task_manager/views.py:159
+#: task_manager/views.py:158
 msgid "Delete user page"
 msgstr "Удаление пользователя"
 

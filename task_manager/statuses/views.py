@@ -5,6 +5,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+from django.shortcuts import redirect
 
 from .forms import StatusForm
 
@@ -69,6 +71,17 @@ class DeleteStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteVie
     success_url = reverse_lazy("all_statuses")
     template_name = "DeletePage.html"
     login_url = reverse_lazy("login")
+
+    def get(self, request, pk, *args, **kwargs):
+        if StatusModel.objects.get(pk=pk).taskmodel_set.count() == 0:
+            return super().get(self, request, *args, **kwargs)
+        else:
+            messages.add_message(
+                request,
+                messages.ERROR,
+                gettext("Can't delete status because it's in use"),
+            )
+            return redirect(reverse_lazy("all_statuses"))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
