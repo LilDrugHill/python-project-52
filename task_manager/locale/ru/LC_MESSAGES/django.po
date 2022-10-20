@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-18 20:14+0300\n"
+"POT-Creation-Date: 2022-10-20 12:05+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: task_manager/forms.py:14 task_manager/forms.py:17 task_manager/forms.py:74
-#: task_manager/forms.py:79
+#: task_manager/forms.py:14 task_manager/forms.py:17 task_manager/forms.py:67
+#: task_manager/forms.py:72
 msgid "Password"
 msgstr "Пароль"
 
@@ -33,7 +33,8 @@ msgstr "Подтверждение пароля"
 msgid "Enter the same password as before, for verification."
 msgstr "Для подтверждения введите, пожалуйста, пароль ещё раз."
 
-#: task_manager/forms.py:38 task_manager/labels/models.py:6
+#: task_manager/forms.py:38 task_manager/labels/forms.py:15
+#: task_manager/labels/models.py:6 task_manager/statuses/forms.py:15
 #: task_manager/statuses/models.py:6 task_manager/tasks/models.py:9
 #: task_manager/tasks/views.py:41 task_manager/tasks/views.py:66
 #: task_manager/templates/PageWithAll.html:7
@@ -44,7 +45,7 @@ msgstr "Имя"
 msgid "Last name"
 msgstr "Фамилия"
 
-#: task_manager/forms.py:40 task_manager/forms.py:68
+#: task_manager/forms.py:40 task_manager/forms.py:61
 #: task_manager/templates/task_manager/PageWithUsers.html:7
 msgid "Username"
 msgstr "Имя пользователя"
@@ -282,19 +283,23 @@ msgstr "Вход"
 msgid "All users page"
 msgstr "Пользователи"
 
-#: task_manager/views.py:75
+#: task_manager/views.py:71
+msgid "You are logged out"
+msgstr "Вы разлогинены"
+
+#: task_manager/views.py:76
 msgid "User data updated"
 msgstr "Пользователь успешно изменён"
 
-#: task_manager/views.py:130
+#: task_manager/views.py:131
 msgid "User deleted"
 msgstr "Пользователь успешно удалён"
 
-#: task_manager/views.py:142
+#: task_manager/views.py:143
 msgid "Cannot delete user because it is in use"
 msgstr "Невозможно удалить пользователя, потому что он используется"
 
-#: task_manager/views.py:151
+#: task_manager/views.py:152
 msgid "Delete user page"
 msgstr "Удаление пользователя"
 
