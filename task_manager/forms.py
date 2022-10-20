@@ -6,7 +6,6 @@ from django.utils.translation import gettext
 from django.contrib.auth.forms import UsernameField
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import password_validation
-from django.contrib.auth.forms import SetPasswordForm
 from django.core.exceptions import ValidationError
 
 
@@ -101,15 +100,27 @@ class CustomSetPasswordForm(forms.Form):
         "password_mismatch": _("The two password fields didn’t match."),
     }
     password1 = forms.CharField(
-        label=_("New password"),
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "class": "form-control"}),
+        label=_("Password"),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-control",
+                "placeholder": _("Password"),
+            }
+        ),
         strip=False,
         help_text=password_validation.password_validators_help_text_html(),
     )
     password2 = forms.CharField(
-        label=_("New password confirmation"),
+        label=_("Password confirmation"),
         strip=False,
-        widget=forms.PasswordInput(attrs={"autocomplete": "new-password", "class": "form-control"}),
+        widget=forms.PasswordInput(
+            attrs={
+                "autocomplete": "new-password",
+                "class": "form-control",
+                "placeholder": _("Password confirmation"),
+            }
+        ),
     )
 
     def __init__(self, user, *args, **kwargs):
@@ -134,4 +145,3 @@ class CustomSetPasswordForm(forms.Form):
         if commit:
             self.user.save()
         return self.user
-

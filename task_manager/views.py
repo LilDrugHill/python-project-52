@@ -12,7 +12,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .utils import DataMixin, menu
-from .forms import RegisterUserForm, UserUpdateForm, CustomAuthenticationForm, CustomSetPasswordForm
+from .forms import (
+    RegisterUserForm,
+    UserUpdateForm,
+    CustomAuthenticationForm,
+    CustomSetPasswordForm,
+)
 
 
 class HomePageView(DataMixin, TemplateView):
