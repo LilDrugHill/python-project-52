@@ -133,7 +133,7 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
 
 class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = User
-    success_url = reverse_lazy("home")
+    success_url = reverse_lazy("all_users")
     success_message = gettext("User deleted")
     template_name = "DeletePage.html"
     login_url = reverse_lazy("login")
@@ -151,7 +151,7 @@ class DeleteUser(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
             return redirect(reverse_lazy("all_users"))
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
-            return redirect(reverse_lazy("home"))
+            return redirect(reverse_lazy("all_users"))
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
