@@ -68,6 +68,7 @@ class ShowAllUsers(DataMixin, ListView):
 
 def logout_user(request):
     logout(request)
+    messages.add_message(request, messages.INFO, gettext('You are logged out'))
     return redirect("home")
 
 
