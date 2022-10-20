@@ -232,7 +232,7 @@ msgstr "Зарегистрировать"
 
 #: task_manager/templates/task_manager/base.html:25
 msgid "Logout"
-msgstr "Выйти"
+msgstr "Выход"
 
 #: task_manager/templates/task_manager/base.html:27
 msgid "Login"
