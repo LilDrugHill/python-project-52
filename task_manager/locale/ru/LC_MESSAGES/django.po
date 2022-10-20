@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-20 13:24+0300\n"
+"POT-Creation-Date: 2022-10-20 14:28+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,48 +20,41 @@ msgstr ""
 "n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || "
 "(n%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: task_manager/forms.py:15 task_manager/forms.py:18 task_manager/forms.py:68
-#: task_manager/forms.py:73
+#: task_manager/forms.py:14 task_manager/forms.py:19 task_manager/forms.py:83
+#: task_manager/forms.py:88 task_manager/forms.py:103 task_manager/forms.py:108
 msgid "Password"
 msgstr "Пароль"
 
-#: task_manager/forms.py:23 task_manager/forms.py:27
+#: task_manager/forms.py:26 task_manager/forms.py:30 task_manager/forms.py:115
+#: task_manager/forms.py:121
 msgid "Password confirmation"
 msgstr "Подтверждение пароля"
 
-#: task_manager/forms.py:32
+#: task_manager/forms.py:35
 msgid "Enter the same password as before, for verification."
 msgstr "Для подтверждения введите, пожалуйста, пароль ещё раз."
 
-#: task_manager/forms.py:39 task_manager/forms.py:50 task_manager/forms.py:51
-#: task_manager/forms.py:52 task_manager/labels/forms.py:15
-#: task_manager/labels/models.py:6 task_manager/statuses/forms.py:15
+#: task_manager/forms.py:43 task_manager/forms.py:60 task_manager/forms.py:63
+#: task_manager/forms.py:66 task_manager/labels/forms.py:16
+#: task_manager/labels/models.py:6 task_manager/statuses/forms.py:16
 #: task_manager/statuses/models.py:6 task_manager/tasks/models.py:9
 #: task_manager/tasks/views.py:41 task_manager/tasks/views.py:66
 #: task_manager/templates/PageWithAll.html:7
 msgid "Name"
 msgstr "Имя"
 
-#: task_manager/forms.py:40
+#: task_manager/forms.py:46
 msgid "Last name"
 msgstr "Фамилия"
 
-#: task_manager/forms.py:41 task_manager/forms.py:62
+#: task_manager/forms.py:49 task_manager/forms.py:77
 #: task_manager/templates/task_manager/PageWithUsers.html:7
 msgid "Username"
 msgstr "Имя пользователя"
 
-#: task_manager/forms.py:85
-#, fuzzy
-#| msgid "Repeat password"
-msgid "New password"
-msgstr "Подтверждение пароля"
-
-#: task_manager/forms.py:91
-#, fuzzy
-#| msgid "Password confirmation"
-msgid "New password confirmation"
-msgstr "Подтверждение пароля"
+#: task_manager/forms.py:100
+msgid "The two password fields didn’t match."
+msgstr ""
 
 #: task_manager/labels/models.py:8 task_manager/statuses/models.py:8
 #: task_manager/tasks/views.py:45 task_manager/tasks/views.py:71
@@ -81,13 +74,13 @@ msgstr "Создать метку"
 #: task_manager/labels/views.py:27 task_manager/labels/views.py:63
 #: task_manager/statuses/views.py:25 task_manager/statuses/views.py:61
 #: task_manager/tasks/views.py:34 task_manager/tasks/views.py:61
-#: task_manager/tasks/views.py:112 task_manager/views.py:60
+#: task_manager/tasks/views.py:112 task_manager/views.py:64
 msgid "Update"
 msgstr "Изменить"
 
 #: task_manager/labels/views.py:28 task_manager/statuses/views.py:26
 #: task_manager/tasks/views.py:35 task_manager/tasks/views.py:62
-#: task_manager/views.py:61
+#: task_manager/views.py:65
 msgid "Delete"
 msgstr "Удалить"
 
@@ -276,47 +269,47 @@ msgstr "Статусы"
 msgid "Tasks"
 msgstr "Задачи"
 
-#: task_manager/views.py:32
+#: task_manager/views.py:36
 msgid "You have been successfully registered"
 msgstr "Пользователь успешно зарегистрирован"
 
-#: task_manager/views.py:36
+#: task_manager/views.py:40
 msgid "Registration page"
 msgstr "Регистрация"
 
-#: task_manager/views.py:44
+#: task_manager/views.py:48
 msgid "Successfully login"
 msgstr "Вы залогинены"
 
-#: task_manager/views.py:48
+#: task_manager/views.py:52
 msgid "Login page"
 msgstr "Вход"
 
-#: task_manager/views.py:59
+#: task_manager/views.py:63
 msgid "All users page"
 msgstr "Пользователи"
 
-#: task_manager/views.py:71
+#: task_manager/views.py:75
 msgid "You are logged out"
 msgstr "Вы разлогинены"
 
-#: task_manager/views.py:76
+#: task_manager/views.py:80
 msgid "User data updated"
 msgstr "Пользователь успешно изменён"
 
-#: task_manager/views.py:88
+#: task_manager/views.py:93
 msgid "User changed successfully"
 msgstr "Пользователь успешно изменён"
 
-#: task_manager/views.py:132
+#: task_manager/views.py:138
 msgid "User deleted"
 msgstr "Пользователь успешно удалён"
 
-#: task_manager/views.py:144
+#: task_manager/views.py:150
 msgid "Cannot delete user because it is in use"
 msgstr "Невозможно удалить пользователя, потому что он используется"
 
-#: task_manager/views.py:153
+#: task_manager/views.py:159
 msgid "Delete user page"
 msgstr "Удаление пользователя"
 
