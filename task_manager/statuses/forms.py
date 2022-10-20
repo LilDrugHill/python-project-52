@@ -12,8 +12,7 @@ class StatusForm(forms.ModelForm):
         model = StatusModel
         fields = ("name",)
         widgets = {
-            "name": forms.TextInput(attrs={"placeholder": gettext("Name"),
-                                           "class": "form-control"}),
-
+            "name": forms.TextInput(
+                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+            ),
         }
-

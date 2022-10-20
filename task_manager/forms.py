@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
 from django.utils.translation import gettext
 from django.contrib.auth.forms import UsernameField
@@ -14,7 +13,11 @@ class RegisterUserForm(UserCreationForm):
         label=_("Password"),
         strip=False,
         widget=forms.PasswordInput(
-            attrs={"autocomplete": "new-password", "placeholder": gettext("Password"), 'class': 'form-control'}
+            attrs={
+                "autocomplete": "new-password",
+                "placeholder": gettext("Password"),
+                "class": "form-control",
+            }
         ),
         help_text=password_validation.password_validators_help_text_html(),
     )
@@ -24,7 +27,7 @@ class RegisterUserForm(UserCreationForm):
             attrs={
                 "autocomplete": "new-password",
                 "placeholder": gettext("Password confirmation"),
-                'class': 'form-control',
+                "class": "form-control",
             }
         ),
         strip=False,
@@ -35,9 +38,15 @@ class RegisterUserForm(UserCreationForm):
         model = User
         fields = ("username", "first_name", "last_name", "password1", "password2")
         widgets = {
-            "first_name": forms.TextInput(attrs={"placeholder": gettext("Name"), 'class': 'form-control'}, ),
-            "last_name": forms.TextInput(attrs={"placeholder": gettext("Last name"), 'class': 'form-control'}),
-            "username": forms.TextInput(attrs={"placeholder": gettext("Username"), 'class': 'form-control'}),
+            "first_name": forms.TextInput(
+                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"placeholder": gettext("Last name"), "class": "form-control"}
+            ),
+            "username": forms.TextInput(
+                attrs={"placeholder": gettext("Username"), "class": "form-control"}
+            ),
         }
 
 
@@ -46,9 +55,15 @@ class UserUpdateForm(forms.ModelForm):
         model = User
         fields = ("username", "first_name", "last_name")
         widgets = {
-            "first_name": forms.TextInput(),
-            "last_name": forms.TextInput(),
-            "username": forms.TextInput(),
+            "first_name": forms.TextInput(
+                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+            ),
+            "last_name": forms.TextInput(
+                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+            ),
+            "username": forms.TextInput(
+                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+            ),
         }
 
 
@@ -59,7 +74,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             attrs={
                 "autofocus": True,
                 "placeholder": gettext("Username"),
-                'class': 'form-control'
+                "class": "form-control",
             }
         ),
     )
@@ -70,7 +85,7 @@ class CustomAuthenticationForm(AuthenticationForm):
             attrs={
                 "autocomplete": "current-password",
                 "placeholder": gettext("Password"),
-                'class': 'form-control',
+                "class": "form-control",
             }
         ),
     )

@@ -12,7 +12,7 @@ class LabelForm(forms.ModelForm):
         model = LabelModel
         fields = "__all__"
         widgets = {
-            "name": forms.TextInput(attrs={"placeholder": gettext("Name"),
-                                           "class": "form-control"}),
-
+            "name": forms.TextInput(
+                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+            ),
         }

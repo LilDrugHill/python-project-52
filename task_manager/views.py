@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, update_session_auth_hash
-from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.forms import SetPasswordForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
@@ -28,7 +28,7 @@ class HomePageView(DataMixin, TemplateView):
 class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
     form_class = RegisterUserForm
     template_name = "task_manager/SignUpPage.html"
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy("login")
     success_message = gettext("You have been successfully registered")
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -68,7 +68,7 @@ class ShowAllUsers(DataMixin, ListView):
 
 def logout_user(request):
     logout(request)
-    messages.add_message(request, messages.INFO, gettext('You are logged out'))
+    messages.add_message(request, messages.INFO, gettext("You are logged out"))
     return redirect("home")
 
 
@@ -79,12 +79,15 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
 
     def post(self, request, *args, **kwargs):
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        password_form = PasswordChangeForm(request.user, request.POST)
+        password_form = SetPasswordForm(request.user, request.POST)
 
         if user_form.is_valid() and password_form.is_valid():
             user_form.save()
             password_form.save()
             update_session_auth_hash(request, request.user)
+            messages.add_message(
+                request, messages.INFO, gettext("User changed successfully")
+            )
             return redirect("home")
         else:
             return render(
@@ -107,7 +110,7 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
                 },
                 label_suffix="",
             )
-            password_form = PasswordChangeForm(request.user, label_suffix="")
+            password_form = SetPasswordForm(request.user, label_suffix="")
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
             return redirect("home")
