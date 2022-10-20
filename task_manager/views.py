@@ -5,7 +5,6 @@ from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
 from django.contrib.auth import logout, update_session_auth_hash
-from django.contrib.auth.forms import SetPasswordForm
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
@@ -13,7 +12,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .utils import DataMixin, menu
-from .forms import RegisterUserForm, UserUpdateForm, CustomAuthenticationForm
+from .forms import RegisterUserForm, UserUpdateForm, CustomAuthenticationForm, CustomSetPasswordForm
 
 
 class HomePageView(DataMixin, TemplateView):
@@ -79,7 +78,7 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
 
     def post(self, request, *args, **kwargs):
         user_form = UserUpdateForm(request.POST, instance=request.user)
-        password_form = SetPasswordForm(request.user, request.POST)
+        password_form = CustomSetPasswordForm(request.user, request.POST)
 
         if user_form.is_valid() and password_form.is_valid():
             user_form.save()
@@ -110,7 +109,7 @@ class UpdateUserData(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateV
                 },
                 label_suffix="",
             )
-            password_form = SetPasswordForm(request.user, label_suffix="")
+            password_form = CustomSetPasswordForm(request.user, label_suffix="")
         else:
             messages.add_message(request, messages.ERROR, "You are betrayer")
             return redirect("home")
