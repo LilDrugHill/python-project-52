@@ -40,13 +40,6 @@ class RegisterUserForm(UserCreationForm):
             "username": forms.TextInput(attrs={"placeholder": gettext("Username"), 'class': 'form-control'}),
         }
 
-    def clean_username(self):  # User validator clean_[field]
-        username = self.cleaned_data["username"]
-        if len(username) > 12:
-            raise ValidationError("Username is too long")
-
-        return username
-
 
 class UserUpdateForm(forms.ModelForm):
     class Meta:
