@@ -51,7 +51,7 @@ class ShowAllTasks(DataMixin, LoginRequiredMixin, ListView):
 class ShowTask(DataMixin, LoginRequiredMixin, DetailView):
     model = TaskModel
     context_object_name = "task"
-    template_name = "tasks/task.html"
+    template_name = "tasks/Task.html"
     login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
