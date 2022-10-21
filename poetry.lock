@@ -120,6 +120,14 @@ beautifulsoup4 = ">=4.8.0"
 Django = ">=3.2"
 
 [[package]]
+name = "django-crispy-forms"
+version = "1.14.0"
+description = "Best way to have Django DRY forms"
+category = "main"
+optional = false
+python-versions = ">=3.7"
+
+[[package]]
 name = "django-filter"
 version = "22.1"
 description = "Django-filter is a reusable Django application for allowing users to filter querysets dynamically."
@@ -424,7 +432,7 @@ brotli = ["brotli"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "5746dd054fa2a91a86f6fb69c02399030f6b848b1a4f3d9072442be4adae935f"
+content-hash = "e28e77f8d7696f2acbb11a9a0cd72d3c416035e1a2ae127053dac46aad390b0c"
 
 [metadata.files]
 asgiref = []
@@ -437,6 +445,7 @@ coverage = []
 dj-database-url = []
 django = []
 django-bootstrap4 = []
+django-crispy-forms = []
 django-filter = []
 django-on-heroku = []
 flake8 = []

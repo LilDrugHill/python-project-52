@@ -1,11 +1,12 @@
 {% extends 'task_manager/base.html' %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 {% block content %}
 
 <h1>{{title}}</h1>
 <form method="get" class="form-inline center">
-    {{ filter.form }}
-    <button type="submit">{% trans 'Show' %}</button>
+    {{ filter.form|crispy }}
+    <button class="btn btn-primary" type="submit">{% trans 'Show' %}</button>
 </form>
 <table class="table table-striped">
     <a href="{{ creation_page }}">{{ creation_title }}</a>
