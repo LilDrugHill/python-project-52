@@ -6,7 +6,7 @@ from django.utils.translation import gettext
 
 
 class TaskModel(models.Model):
-    name = models.CharField(max_length=25, verbose_name=gettext("Name"))
+    name = models.CharField(max_length=50, verbose_name=gettext("Name"))
     description = models.CharField(max_length=255, verbose_name=gettext("Description"))
     status = models.ForeignKey(
         StatusModel, on_delete=models.PROTECT, verbose_name=gettext("Status")
