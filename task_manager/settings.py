@@ -31,7 +31,7 @@ dotenv.load_dotenv()
 SECRET_KEY = os.getenv("SECRET_KEY")
 ACCESS_TOKEN = os.getenv("access_token")
 DEBUG_MODE = os.getenv("DEBUG_MODE")
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'task_manager.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "task_manager.settings")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = DEBUG_MODE
 
@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    'crispy_forms',
+    "crispy_forms",
     "bootstrap4",
     "task_manager",
     "task_manager.tasks",

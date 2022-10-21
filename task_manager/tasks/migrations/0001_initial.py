@@ -9,23 +9,64 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('task_manager', '0001_initial'),
-        ('statuses', '0001_initial'),
-        ('labels', '0001_initial'),
+        ("task_manager", "0001_initial"),
+        ("statuses", "0001_initial"),
+        ("labels", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='TaskModel',
+            name="TaskModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50, verbose_name='Имя')),
-                ('description', models.CharField(blank=True, max_length=255, null=True, verbose_name='Описание')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('author', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='author', to='task_manager.userstr', verbose_name='Автор')),
-                ('executor', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='executor', to='task_manager.userstr', verbose_name='Исполнитель')),
-                ('labels', models.ManyToManyField(blank=True, to='labels.labelmodel', verbose_name='Метки')),
-                ('status', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='statuses.statusmodel', verbose_name='Статус')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=50, verbose_name="Имя")),
+                (
+                    "description",
+                    models.CharField(
+                        blank=True, max_length=255, null=True, verbose_name="Описание"
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "author",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="author",
+                        to="task_manager.userstr",
+                        verbose_name="Автор",
+                    ),
+                ),
+                (
+                    "executor",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="executor",
+                        to="task_manager.userstr",
+                        verbose_name="Исполнитель",
+                    ),
+                ),
+                (
+                    "labels",
+                    models.ManyToManyField(
+                        blank=True, to="labels.labelmodel", verbose_name="Метки"
+                    ),
+                ),
+                (
+                    "status",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="statuses.statusmodel",
+                        verbose_name="Статус",
+                    ),
+                ),
             ],
         ),
     ]
