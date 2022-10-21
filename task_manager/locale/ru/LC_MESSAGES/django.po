@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-21 12:52+0300\n"
+"POT-Creation-Date: 2022-10-21 14:01+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,6 +58,7 @@ msgstr "Пароли не совпадают"
 #: task_manager/labels/models.py:8 task_manager/statuses/models.py:8
 #: task_manager/tasks/views.py:45 task_manager/templates/PageWithAll.html:7
 #: task_manager/templates/task_manager/PageWithUsers.html:7
+#: task_manager/templates/tasks/Task.html:27
 msgid "Creation date"
 msgstr "Дата создания"
 
@@ -152,9 +153,13 @@ msgstr "Невозможно удалить статус, потому что о
 msgid "Delete status page"
 msgstr "Удаление статуса"
 
-#: task_manager/tasks/filters.py:9
+#: task_manager/tasks/filters.py:10
 msgid "Only own tasks"
 msgstr "Только свои задачи"
+
+#: task_manager/tasks/filters.py:12
+msgid "Label"
+msgstr "Меткa"
 
 #: task_manager/tasks/forms.py:10
 msgid "Status not selected"
@@ -261,15 +266,9 @@ msgstr "Вход"
 msgid "Registration"
 msgstr "Регистрация"
 
-#: task_manager/templates/tasks/PageWithTasks.html:8
+#: task_manager/templates/tasks/PageWithTasks.html:9
 msgid "Show"
 msgstr "Показать"
-
-#: task_manager/templates/tasks/Task.html:27
-#, fuzzy
-#| msgid "Creation date"
-msgid "Creation data"
-msgstr "Дата создания"
 
 #: task_manager/utils.py:5
 msgid "Task manager"
@@ -330,6 +329,11 @@ msgstr "Невозможно удалить пользователя, потом
 #: task_manager/views.py:158
 msgid "Delete user page"
 msgstr "Удаление пользователя"
+
+#, fuzzy
+#~| msgid "Creation date"
+#~ msgid "Creation data"
+#~ msgstr "Дата создания"
 
 #~ msgid "A task can only be deleted by its author."
 #~ msgstr "Задачу может удалить только её автор"
