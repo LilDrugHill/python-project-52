@@ -58,19 +58,8 @@ class ShowTask(DataMixin, LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(
             title=gettext("Task view"),
-            update_word=gettext("Update"),
-            delete_word=gettext("Delete"),
             update_page="update_task",
             delete_page="delete_task",
-            table_words={
-                "name": gettext("Name"),
-                "description": gettext("Description"),
-                "status": gettext("Status"),
-                "author": gettext("Author"),
-                "executor": gettext("Executor"),
-                "created_at": gettext("Creation date"),
-                "labels": gettext("Labels"),
-            },
         )
         return dict(list(context.items()) + list(c_def.items()))
 
