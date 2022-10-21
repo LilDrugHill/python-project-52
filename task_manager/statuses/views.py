@@ -43,7 +43,7 @@ class CreateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateVie
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(
             title=gettext("Status creation page"),
-            creation_button=gettext("Create status"),
+            creation_button=gettext("Create"),
         )
         return dict(list(context.items()) + list(c_def.items()))
 

@@ -43,7 +43,7 @@ class CreateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(
             title=gettext("Label creation page"),
-            creation_button=gettext("Create label"),
+            creation_button=gettext("Create"),
         )
         return dict(list(context.items()) + list(c_def.items()))
 

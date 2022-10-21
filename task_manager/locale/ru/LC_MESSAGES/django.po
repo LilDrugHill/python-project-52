@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-20 15:14+0300\n"
+"POT-Creation-Date: 2022-10-21 12:14+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -67,7 +67,7 @@ msgstr "Дата создания"
 msgid "All labels page"
 msgstr "Метки"
 
-#: task_manager/labels/views.py:23 task_manager/labels/views.py:46
+#: task_manager/labels/views.py:23
 msgid "Create label"
 msgstr "Создать метку"
 
@@ -94,6 +94,11 @@ msgstr "Метка успешно создана"
 msgid "Label creation page"
 msgstr "Страница создания тега"
 
+#: task_manager/labels/views.py:46 task_manager/statuses/views.py:46
+#: task_manager/tasks/views.py:94
+msgid "Create"
+msgstr "Создать"
+
 #: task_manager/labels/views.py:63
 msgid "Update label page"
 msgstr "Страница обновления тега"
@@ -114,7 +119,7 @@ msgstr "Удаление метки"
 msgid "All statuses page"
 msgstr "Статусы"
 
-#: task_manager/statuses/views.py:23 task_manager/statuses/views.py:46
+#: task_manager/statuses/views.py:23
 msgid "Create status"
 msgstr "Создать статус"
 
@@ -186,7 +191,7 @@ msgstr "Метки"
 msgid "All tasks page"
 msgstr "Задачи"
 
-#: task_manager/tasks/views.py:30 task_manager/tasks/views.py:94
+#: task_manager/tasks/views.py:30
 msgid "Create task"
 msgstr "Создать задачу"
 
