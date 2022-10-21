@@ -19,7 +19,7 @@ class TaskForm(forms.ModelForm):
         widgets = {
             "author": forms.HiddenInput(attrs={"class": "form-control"}),
             "name": forms.TextInput(attrs={"class": "form-control"}),
-            "description": forms.TextInput(attrs={"class": "form-control"}),
+            "description": forms.Textarea(attrs={"class": "form-control"}),
             "status": forms.Select(attrs={"class": "form-control"}),
             "executor": forms.Select(attrs={"class": "form-control"}),
             "label": forms.SelectMultiple(attrs={"class": "form-control"}),
