@@ -2,7 +2,7 @@ django-dev:
 	poetry run python manage.py runserver
 
 migrate:
-	poetry run python manage.py makemigrations statuses labels tasks
+	poetry run python manage.py makemigrations task_manager statuses labels tasks
 	poetry run python manage.py migrate
 
 lint:
