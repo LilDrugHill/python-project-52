@@ -55,7 +55,7 @@ class UpdateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
     template_name = "UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_labels")
-    success_message = gettext("Label created")
+    success_message = gettext("Label updated")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)

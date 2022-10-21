@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-10-21 12:14+0300\n"
+"POT-Creation-Date: 2022-10-21 12:24+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -54,7 +54,7 @@ msgstr "Имя пользователя"
 
 #: task_manager/forms.py:100
 msgid "The two password fields didn’t match."
-msgstr ""
+msgstr "Пароли не совпадают"
 
 #: task_manager/labels/models.py:8 task_manager/statuses/models.py:8
 #: task_manager/tasks/views.py:45 task_manager/tasks/views.py:71
@@ -86,7 +86,7 @@ msgstr "Изменить"
 msgid "Delete"
 msgstr "Удалить"
 
-#: task_manager/labels/views.py:40 task_manager/labels/views.py:58
+#: task_manager/labels/views.py:40
 msgid "Label created"
 msgstr "Метка успешно создана"
 
@@ -98,6 +98,10 @@ msgstr "Страница создания тега"
 #: task_manager/tasks/views.py:94
 msgid "Create"
 msgstr "Создать"
+
+#: task_manager/labels/views.py:58
+msgid "Label updated"
+msgstr "Метка успешно изменена"
 
 #: task_manager/labels/views.py:63
 msgid "Update label page"
