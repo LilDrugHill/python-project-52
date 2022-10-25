@@ -25,24 +25,6 @@ class RegisterUser(DataMixin, SuccessMessageMixin, CreateView):
     success_url = reverse_lazy("login")
     success_message = gettext("You have been successfully registered")
 
-    def post(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().post(self, request, *args, **kwargs)
-        else:
-            messages.add_message(
-                request, messages.ERROR, gettext("You are already registered")
-            )
-            return redirect(reverse_lazy("home"))
-
-    def get(self, request, *args, **kwargs):
-        if not request.user.is_authenticated:
-            return super().get(self, request, *args, **kwargs)
-        else:
-            messages.add_message(
-                request, messages.ERROR, gettext("You are already registered")
-            )
-            return redirect(reverse_lazy("home"))
-
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
         c_def = self.get_user_context(title=gettext("Registration page"))
