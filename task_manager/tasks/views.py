@@ -126,7 +126,7 @@ class DeleteTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
         messages.add_message(
             request,
             messages.ERROR,
-            gettext('A task can only be deleted by its author.'),
+            gettext("A task can only be deleted by its author."),
         )
         return redirect(reverse_lazy("all_tasks"))
 

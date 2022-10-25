@@ -1,7 +1,6 @@
 from task_manager.auth.models import User
 from task_manager.labels.models import LabelModel
 from task_manager.statuses.models import StatusModel
-from task_manager.tasks.models import TaskModel
 
 
 USERNAME_1 = "testuserfirst"
@@ -33,6 +32,6 @@ class TestUserMixin:
         return label
 
     def create_test_status_1(self):
-        status = StatusModel.objects.create(name='test_status_1')
+        status = StatusModel.objects.create(name="test_status_1")
         status.save()
         return status
