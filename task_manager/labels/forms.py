@@ -1,5 +1,5 @@
 from django import forms
-from .models import LabelModel
+from task_manager.labels.models import LabelModel
 from django.utils.translation import gettext
 
 

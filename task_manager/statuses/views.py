@@ -13,7 +13,7 @@ from .forms import StatusForm
 
 class ShowAllStatuses(DataMixin, LoginRequiredMixin, ListView):
     model = StatusModel
-    template_name = "PageWithAll.html"
+    template_name = "statuses/PageWithAll.html"
     login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -21,7 +21,7 @@ class ShowAllStatuses(DataMixin, LoginRequiredMixin, ListView):
         c_def = self.get_user_context(
             title=gettext("All statuses page"),
             creation_title=gettext("Create status"),
-            creation_page=reverse_lazy("creation_status_page"),
+            creation_page=reverse_lazy("create_status"),
             update_page="update_status",
             delete_page="delete_status",
             update_word=gettext("Update"),
@@ -34,7 +34,7 @@ class CreateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateVie
     model = StatusModel
     form_class = StatusForm
 
-    template_name = "CreationPage.html"
+    template_name = "statuses/CreationPage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_statuses")
     success_message = gettext("Status created")
@@ -52,10 +52,10 @@ class UpdateStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateVie
     form_class = StatusForm
     model = StatusModel
 
-    template_name = "UpdatePage.html"
+    template_name = "statuses/UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_statuses")
-    success_message = gettext("Status Updated")
+    success_message = gettext("Status updated")
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -69,12 +69,12 @@ class DeleteStatus(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteVie
     model = StatusModel
     success_message = gettext("Status deleted")
     success_url = reverse_lazy("all_statuses")
-    template_name = "DeletePage.html"
+    template_name = "statuses/DeletePage.html"
     login_url = reverse_lazy("login")
 
-    def get(self, request, pk, *args, **kwargs):
-        if StatusModel.objects.get(pk=pk).taskmodel_set.count() == 0:
-            return super().get(self, request, *args, **kwargs)
+    def post(self, request, pk, *args, **kwargs):
+        if not self.get_object().taskmodel_set.exists():
+            return super().post(self, request, *args, **kwargs)
         else:
             messages.add_message(
                 request,

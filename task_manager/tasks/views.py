@@ -28,7 +28,7 @@ class ShowAllTasks(DataMixin, LoginRequiredMixin, ListView):
         c_def = self.get_user_context(
             title=gettext("All tasks page"),
             creation_title=gettext("Create task"),
-            creation_page=reverse_lazy("creation_task_page"),
+            creation_page=reverse_lazy("create_task"),
             update_page="update_task",
             delete_page="delete_task",
             update_word=gettext("Update"),
@@ -67,7 +67,7 @@ class ShowTask(DataMixin, LoginRequiredMixin, DetailView):
 class CreateTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView):
     form_class = TaskForm
 
-    template_name = "CreationPage.html"
+    template_name = "tasks/CreationPage.html"
     success_url = reverse_lazy("all_tasks")
     login_url = reverse_lazy("login")
     success_message = gettext("Task created")
@@ -89,7 +89,7 @@ class UpdateTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView)
     model = TaskModel
     form_class = TaskForm
 
-    template_name = "UpdatePage.html"
+    template_name = "tasks/UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_tasks")
     success_message = gettext("Task updated")
@@ -106,7 +106,7 @@ class UpdateTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView)
 class DeleteTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = TaskModel
     success_url = reverse_lazy("all_tasks")
-    template_name = "DeletePage.html"
+    template_name = "tasks/DeletePage.html"
     success_message = gettext("Task deleted")
     login_url = reverse_lazy("login")
 
@@ -117,6 +117,16 @@ class DeleteTask(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView)
             request,
             messages.ERROR,
             f"{gettext('A task can only be deleted by its author.')}",
+        )
+        return redirect(reverse_lazy("all_tasks"))
+
+    def post(self, request, pk, *args, **kwargs):
+        if request.user.pk == TaskModel.objects.get(pk=pk).author.pk:
+            return super().post(self, request, *args, **kwargs)
+        messages.add_message(
+            request,
+            messages.ERROR,
+            gettext('A task can only be deleted by its author.'),
         )
         return redirect(reverse_lazy("all_tasks"))
 

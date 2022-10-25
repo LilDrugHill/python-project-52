@@ -9,10 +9,17 @@ lint:
 	poetry run flake8 task_manager
 
 test:
-	poetry run pytest
+	poetry run python manage.py test task_manager
 
 test-cov:
-	poetry run pytest --cov=task_manager . --cov-report xml
+	poetry run coverage run manage.py test task_manager
+	poetry run coverage xml
 
 install:
 	poetry install
+
+translate:
+	django-admin makemessages -l ru
+
+translate-comp:
+	django-admin compilemessage

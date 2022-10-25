@@ -1,5 +1,5 @@
 from django import forms
-from .models import TaskModel
+from task_manager.tasks.models import TaskModel
 from django.utils.translation import gettext
 
 

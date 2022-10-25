@@ -13,7 +13,7 @@ from .forms import LabelForm
 
 class ShowAllLabels(DataMixin, LoginRequiredMixin, ListView):
     model = LabelModel
-    template_name = "PageWithAll.html"
+    template_name = "labels/PageWithAll.html"
     login_url = reverse_lazy("login")
 
     def get_context_data(self, *, object_list=None, **kwargs):
@@ -21,7 +21,7 @@ class ShowAllLabels(DataMixin, LoginRequiredMixin, ListView):
         c_def = self.get_user_context(
             title=gettext("All labels page"),
             creation_title=gettext("Create label"),
-            creation_page=reverse_lazy("creation_label_page"),
+            creation_page=reverse_lazy("create_label"),
             update_page="update_label",
             delete_page="delete_label",
             update_word=gettext("Update"),
@@ -34,7 +34,7 @@ class CreateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, CreateView
     model = LabelModel
     form_class = LabelForm
 
-    template_name = "CreationPage.html"
+    template_name = "labels/CreationPage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_labels")
     success_message = gettext("Label created")
@@ -52,7 +52,7 @@ class UpdateLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, UpdateView
     model = LabelModel
     form_class = LabelForm
 
-    template_name = "UpdatePage.html"
+    template_name = "labels/UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_labels")
     success_message = gettext("Label updated")
@@ -69,12 +69,12 @@ class DeleteLabel(DataMixin, LoginRequiredMixin, SuccessMessageMixin, DeleteView
     model = LabelModel
     success_message = gettext("Label deleted")
     success_url = reverse_lazy("all_labels")
-    template_name = "DeletePage.html"
+    template_name = "labels/DeletePage.html"
     login_url = reverse_lazy("login")
 
-    def get(self, request, pk, *args, **kwargs):
-        if LabelModel.objects.get(pk=pk).taskmodel_set.count() == 0:
-            return super().get(self, request, *args, **kwargs)
+    def post(self, request, pk, *args, **kwargs):
+        if not self.get_object().taskmodel_set.exists():
+            return super().post(self, request, *args, **kwargs)
         else:
             messages.add_message(
                 request,

@@ -1,5 +1,5 @@
 from django import forms
-from .models import StatusModel
+from task_manager.statuses.models import StatusModel
 from django.utils.translation import gettext
 
 
