@@ -27,6 +27,8 @@ jobs:
         run: |
           make lint
       - name: Run tests
+        env:
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
         run: |
           make test
       - name: Create Reporter
