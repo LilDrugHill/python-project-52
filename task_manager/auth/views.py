@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.views import LogoutView
 from django.utils.translation import gettext
 from django.shortcuts import redirect
@@ -37,10 +38,15 @@ class ShowAllUsers(ListView):
         return User.objects.filter(is_staff=False)
 
 
-class Logout(CustomLoginRequiredMixin, SuccessMessageMixin, LogoutView):
+class Logout(CustomLoginRequiredMixin, LogoutView):
     success_message = gettext("You are logged out")
-    template_name = "auth/LogoutPage.html"
     login_url = reverse_lazy("home")
+    success_url = reverse_lazy('home')
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        messages.add_message(request, messages.INFO, self.success_message)
+        return redirect(self.success_url)
 
 
 class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
