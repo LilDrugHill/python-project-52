@@ -23,7 +23,7 @@ urlpatterns = [
     path("", views.HomePageView.as_view(), name="home"),
     path("users/", include("task_manager.auth.urls")),
     path("login/", task_manager.auth.views.LoginUser.as_view(), name="login"),
-    path("logout/", task_manager.auth.views.logout_user, name="logout"),
+    path("logout/", task_manager.auth.views.Logout.as_view(), name="logout"),
     path("statuses/", include("task_manager.statuses.urls")),
     path("labels/", include("task_manager.labels.urls")),
     path("tasks/", include("task_manager.tasks.urls")),

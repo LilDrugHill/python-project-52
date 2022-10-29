@@ -1,21 +1,16 @@
+from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.utils.translation import gettext
 
 
-menu = [
-    {"title": gettext("Task manager"), "url_name": "home"},
-    {"title": gettext("All users"), "url_name": "all_users"},
-    {"title": gettext("Statuses"), "url_name": "all_statuses"},
-    {"title": gettext("Labels"), "url_name": "all_labels"},
-    {"title": gettext("Tasks"), "url_name": "all_tasks"},
-]
+class CustomLoginRequiredMixin(LoginRequiredMixin):
+    permission_denied_message = gettext('You have to be logged in to access that page')
 
-
-class DataMixin:
-    def get_user_context(self, **kwargs):
-        context = kwargs
-
-        user_menu = menu.copy()
-        if not self.request.user.is_authenticated:
-            user_menu = [user_menu[0], user_menu[1]]
-        context["menu"] = user_menu
-        return context
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.add_message(request, messages.WARNING,
+                             self.permission_denied_message)
+            return self.handle_no_permission()
+        return super(CustomLoginRequiredMixin, self).dispatch(
+            request, *args, **kwargs
+        )

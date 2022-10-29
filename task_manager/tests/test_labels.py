@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
@@ -5,8 +6,7 @@ from django.utils.translation import gettext
 from django import test
 
 from task_manager.labels.models import LabelModel
-from task_manager.tasks.models import TaskModel
-from task_manager.tests.utils import TestUserMixin, PASSWORD
+from task_manager.tests import PASSWORD
 
 
 @test.modify_settings(
@@ -16,11 +16,19 @@ from task_manager.tests.utils import TestUserMixin, PASSWORD
         ]
     }
 )
-class TestView(TestCase, TestUserMixin):
+class TestView(TestCase):
+    fixtures = [
+        'task_manager/fixtures/labels.json',
+        'task_manager/fixtures/statuses.json',
+        'task_manager/fixtures/users.json',
+        'task_manager/fixtures/tasks.json'
+    ]
+
     def setUp(self) -> None:
         self.client = Client()
-        self.user = self.create_test_user_1()
-        self.label = self.create_test_label_1()
+        self.user = User.objects.get(pk=1)
+        self.label_in_use = LabelModel.objects.get(pk=1)
+        self.label_unused = LabelModel.objects.get(pk=2)
         self.all_labels_url = reverse_lazy("all_labels")
 
     def test_create_label_GET(self):
@@ -44,7 +52,7 @@ class TestView(TestCase, TestUserMixin):
     def test_update_label_GET(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(
-            reverse_lazy("update_label", kwargs={"pk": self.label.pk})
+            reverse_lazy("update_label", kwargs={"pk": self.label_in_use.pk})
         )
 
         self.assertEquals(response.status_code, 200)
@@ -53,7 +61,7 @@ class TestView(TestCase, TestUserMixin):
     def test_update_label_POST(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.post(
-            reverse_lazy("update_label", kwargs={"pk": self.label.pk}),
+            reverse_lazy("update_label", kwargs={"pk": self.label_in_use.pk}),
             {"name": "new_test_name"},
         )
         message = list(get_messages(response.wsgi_request))
@@ -67,7 +75,7 @@ class TestView(TestCase, TestUserMixin):
     def test_delete_label_GET(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(
-            reverse_lazy("delete_label", kwargs={"pk": self.label.pk})
+            reverse_lazy("delete_label", kwargs={"pk": self.label_unused.pk})
         )
 
         self.assertEquals(response.status_code, 200)
@@ -76,7 +84,7 @@ class TestView(TestCase, TestUserMixin):
     def test_delete_label_POST_unused(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.post(
-            reverse_lazy("delete_label", kwargs={"pk": self.label.pk})
+            reverse_lazy("delete_label", kwargs={"pk": self.label_unused.pk})
         )
         message = list(get_messages(response.wsgi_request))
 
@@ -84,23 +92,13 @@ class TestView(TestCase, TestUserMixin):
         self.assertEquals(len(message), 1)
         self.assertEquals(str(message[0]), gettext("Label deleted"))
         self.assertRedirects(response, self.all_labels_url)
-        self.assertFalse(LabelModel.objects.filter(pk=self.label.pk).exists())
+        self.assertFalse(LabelModel.objects.filter(pk=self.label_unused.pk).exists())
 
     def test_delete_label_POST_in_use(self):
         self.client.login(username=self.user.username, password=PASSWORD)
 
-        task = TaskModel.objects.create(
-            name="asd",
-            description="asd",
-            status=self.create_test_status_1(),
-            executor=self.user,
-            author=self.user,
-        )
-        task.labels.set([self.label])
-        task.save()
-
         response = self.client.post(
-            reverse_lazy("delete_label", kwargs={"pk": self.label.pk})
+            reverse_lazy("delete_label", kwargs={"pk": self.label_in_use.pk})
         )
         message = list(get_messages(response.wsgi_request))
 

@@ -3,9 +3,12 @@ from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
 from django.utils.translation import gettext
 from django import test
+from django.contrib.auth.models import User
 
 from task_manager.tasks.models import TaskModel
-from task_manager.tests.utils import TestUserMixin, PASSWORD
+from task_manager.statuses.models import StatusModel
+from task_manager.labels.models import LabelModel
+from task_manager.tests import PASSWORD
 
 
 @test.modify_settings(
@@ -15,29 +18,23 @@ from task_manager.tests.utils import TestUserMixin, PASSWORD
         ]
     }
 )
-class TestView(TestCase, TestUserMixin):
+class TestView(TestCase):
+    fixtures = [
+        'task_manager/fixtures/labels.json',
+        'task_manager/fixtures/statuses.json',
+        'task_manager/fixtures/users.json',
+        'task_manager/fixtures/tasks.json'
+    ]
+
     def setUp(self) -> None:
         self.client = Client()
-        self.user_1 = self.create_test_user_1()
-        self.user_2 = self.create_test_user_2()
-        self.status = self.create_test_status_1()
-        self.label_1 = self.create_test_label_1()
-        self.label_2 = self.create_test_label_2()
-        self.task = self.create_test_task_1()
+        self.user_1 = User.objects.get(pk=1)
+        self.user_2 = User.objects.get(pk=2)
+        self.status = StatusModel.objects.get(pk=1)
+        self.label_1 = LabelModel.objects.get(pk=1)
+        self.label_2 = LabelModel.objects.get(pk=2)
+        self.task = TaskModel.objects.get(pk=1)
         self.all_tasks_url = reverse_lazy("all_tasks")
-
-    def create_test_task_1(self):
-        user = self.user_1
-        task = TaskModel.objects.create(
-            name="asd",
-            description="asd",
-            status=self.status,
-            executor=user,
-            author=user,
-        )
-        task.labels.set([self.label_1, self.label_2])
-        task.save()
-        return task
 
     def test_create_task_GET(self):
         self.client.login(username=self.user_1.username, password=PASSWORD)

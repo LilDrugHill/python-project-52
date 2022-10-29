@@ -1,7 +1,7 @@
 django-dev:
 	poetry run python manage.py runserver
 
-migrate:
+full-migrate:
 	poetry run python manage.py makemigrations task_manager statuses labels tasks
 	poetry run python manage.py migrate
 
@@ -23,3 +23,14 @@ translate:
 
 translate-comp:
 	django-admin compilemessage
+
+secretkey:
+	poetry run python -c 'from django.utils.crypto import get_random_string; print(get_random_string(40))'
+
+
+migrate:
+	poetry run python manage.py migrate
+
+setup: migrate
+	echo Create a super user
+	poetry run python manage.py createsuperuser

@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
-<h1>{{title}}</h1>
+<h1>{% trans 'Update status page' %}</h1>
 
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <button class="btn btn-primary" type="submit">{{ update_button }}</button>
+    <button class="btn btn-primary" type="submit">{% trans 'Update' %}</button>
 </form>
 {% endblock %}

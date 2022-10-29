@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load i18n %}
 {% block content %}
-<h1>{{title}}</h1>
+<h1>{% trans "All labels page" %}</h1>
 <table class="table table-striped">
-    <a href="{{ creation_page }}">{{ creation_title }}</a>
+    <a href="{% url 'create_label' %}">{% trans "Create label" %}</a>
     <tread><tr><th>{% trans 'ID' %}</th><th>{% trans 'Name' %}</th><th>{% trans 'Creation date' %}</th><th></th></tr></tread>
     <tbody>
     {% for p in object_list %}
-    <tr><td>{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.created_at }}</td><td><a href="{% url update_page pk=p.pk %}">{{ update_word }}</a> | <a href="{% url delete_page pk=p.pk%}">{{ delete_word }}</a></td> </tr>
+    <tr><td>{{ p.id }}</td><td>{{ p.name }}</td><td>{{ p.created_at }}</td><td><a href="{% url 'update_label' pk=p.pk %}">{% trans "Update" %}</a> | <a href="{% url 'delete_label' pk=p.pk%}">{% trans 'Delete' %}</a></td> </tr>
     {% endfor %}
     </tbody>
 </table>

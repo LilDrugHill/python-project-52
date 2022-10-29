@@ -6,3 +6,4 @@ __pycache__/
 coverage.xml
 test-coverage-tool
 .idea
+/dist/

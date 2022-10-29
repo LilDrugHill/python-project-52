@@ -2,7 +2,7 @@
 {% load i18n %}
 {% block content %}
 <div class="container wrapper flex-grow-1">
-<h1 class="my-4">{{title}}</h1>
+<h1 class="my-4">{% trans 'Task view' %}</h1>
   <div class="card">
     <div class="card-header bg-secondary text-white">
     <h2>{{ task.name }}</h2>
@@ -39,9 +39,9 @@
       </div>
       <div class="row p-1">
         <div class="col">
-          <a href="{% url update_page pk=task.pk %}">{% trans 'Update' %}</a>
+          <a href="{% url 'update_task' pk=task.pk %}">{% trans 'Update' %}</a>
           <br>
-          <a href="{% url delete_page pk=task.pk%}">{% trans 'Delete' %}</a>
+          <a href="{% url 'delete_task' pk=task.pk%}">{% trans 'Delete' %}</a>
         </div>
       </div>
     </div>

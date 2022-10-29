@@ -5,8 +5,7 @@ from django.utils.translation import gettext
 from django import test
 
 from task_manager.auth.models import User
-from task_manager.tests.utils import TestUserMixin, PASSWORD
-from task_manager.tasks.models import TaskModel
+from task_manager.tests import PASSWORD
 
 
 @test.modify_settings(
@@ -16,10 +15,17 @@ from task_manager.tasks.models import TaskModel
         ]
     }
 )
-class TestViews(TestCase, TestUserMixin):
+class TestViews(TestCase):
+    fixtures = [
+        'task_manager/fixtures/labels.json',
+        'task_manager/fixtures/statuses.json',
+        'task_manager/fixtures/users.json',
+        'task_manager/fixtures/tasks.json'
+    ]
+
     def setUp(self):
-        self.user_1 = self.create_test_user_1()
-        self.user_2 = self.create_test_user_2()
+        self.user_1 = User.objects.get(pk=1)
+        self.user_2 = User.objects.get(pk=2)
         self.client = Client()
         self.registration_url = reverse_lazy("register")
         self.betrayer_message = gettext("You are betrayer")
@@ -53,7 +59,7 @@ class TestViews(TestCase, TestUserMixin):
         )
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "auth/UpdateUserPage.html")
+        self.assertTemplateUsed(response, "auth/UpdatePage.html")
 
     def test_update_user_GET_betrayer(self):
         self.client.login(username=self.user_2.username, password=PASSWORD)
@@ -90,9 +96,9 @@ class TestViews(TestCase, TestUserMixin):
         self.assertRedirects(response, self.all_users_url)
 
     def test_delete_user_GET_owner(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.client.login(username=self.user_2.username, password=PASSWORD)
         response = self.client.get(
-            reverse_lazy("delete_user", kwargs={"pk": self.user_1.pk})
+            reverse_lazy("delete_user", kwargs={"pk": self.user_2.pk})
         )
 
         self.assertEquals(response.status_code, 200)
@@ -111,9 +117,9 @@ class TestViews(TestCase, TestUserMixin):
         self.assertRedirects(response, self.all_users_url)
 
     def test_delete_user_POST_free_owner(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.client.login(username=self.user_2.username, password=PASSWORD)
         response = self.client.post(
-            reverse_lazy("delete_user", kwargs={"pk": self.user_1.pk})
+            reverse_lazy("delete_user", kwargs={"pk": self.user_2.pk})
         )
         messages = list(get_messages(response.wsgi_request))
 
@@ -121,20 +127,10 @@ class TestViews(TestCase, TestUserMixin):
         self.assertEquals(len(messages), 1)
         self.assertEquals(str(messages[0]), gettext("User deleted"))
         self.assertRedirects(response, self.all_users_url)
-        self.assertFalse(User.objects.filter(pk=self.user_1.pk).exists())
+        self.assertFalse(User.objects.filter(pk=self.user_2.pk).exists())
 
     def test_delete_user_POST_author_task(self):
         self.client.login(username=self.user_1.username, password=PASSWORD)
-
-        task = TaskModel.objects.create(
-            name="asd",
-            description="asd",
-            status=self.create_test_status_1(),
-            executor=self.user_1,
-            author=self.user_1,
-        )
-        task.save()
-
         response = self.client.post(
             reverse_lazy("delete_user", kwargs={"pk": self.user_1.pk})
         )
