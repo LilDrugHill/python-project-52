@@ -20,10 +20,10 @@ from task_manager.tests import PASSWORD
 )
 class TestView(TestCase):
     fixtures = [
-        'task_manager/fixtures/labels.json',
-        'task_manager/fixtures/statuses.json',
-        'task_manager/fixtures/users.json',
-        'task_manager/fixtures/tasks.json'
+        "task_manager/fixtures/labels.json",
+        "task_manager/fixtures/statuses.json",
+        "task_manager/fixtures/users.json",
+        "task_manager/fixtures/tasks.json",
     ]
 
     def setUp(self) -> None:

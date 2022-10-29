@@ -26,7 +26,8 @@ class ShowAllTasks(CustomLoginRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         c_def = {
             "filter": TaskFilter(
-                self.request.GET, queryset=self.get_queryset(), request=self.request)
+                self.request.GET, queryset=self.get_queryset(), request=self.request
+            )
         }
         return dict(list(context.items()) + list(c_def.items()))
 

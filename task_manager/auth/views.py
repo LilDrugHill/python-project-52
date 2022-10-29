@@ -39,8 +39,8 @@ class ShowAllUsers(ListView):
 
 class Logout(CustomLoginRequiredMixin, SuccessMessageMixin, LogoutView):
     success_message = gettext("You are logged out")
-    template_name = 'auth/LogoutPage.html'
-    login_url = reverse_lazy('home')
+    template_name = "auth/LogoutPage.html"
+    login_url = reverse_lazy("home")
 
 
 class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
