@@ -1,6 +1,5 @@
 from django.views.generic import (
     CreateView,
-    ListView,
     UpdateView,
     DetailView,
     DeleteView,
@@ -63,10 +62,7 @@ class DeleteTask(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "tasks/DeletePage.html"
     success_message = gettext("Task deleted")
     login_url = reverse_lazy("login")
-    http_method_names = [
-        'post',
-        'get'
-    ]
+    http_method_names = ["post", "get"]
 
     def dispatch(self, request, pk, *args, **kwargs):
         if request.method.lower() in self.http_method_names:

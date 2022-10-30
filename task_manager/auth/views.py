@@ -41,7 +41,7 @@ class ShowAllUsers(ListView):
 class Logout(LogoutView):
     success_message = gettext("You are logged out")
     login_url = reverse_lazy("home")
-    success_url = reverse_lazy('home')
+    success_url = reverse_lazy("home")
 
     def get(self, request, *args, **kwargs):
         logout(request)
@@ -56,10 +56,7 @@ class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "auth/UpdatePage.html"
     form_class = UpdateRegUserForm
     model = User
-    http_method_names = [
-        'get',
-        'post'
-    ]
+    http_method_names = ["get", "post"]
 
     def dispatch(self, request, pk, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
@@ -68,7 +65,9 @@ class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
                     self, request.method.lower(), self.http_method_not_allowed
                 )
             else:
-                messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
+                messages.add_message(
+                    request, messages.ERROR, gettext("You are betrayer")
+                )
                 return redirect("all_users")
         else:
             handler = self.http_method_not_allowed
@@ -81,15 +80,15 @@ class DeleteUser(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = gettext("User deleted")
     template_name = "auth/DeletePage.html"
     login_url = reverse_lazy("login")
-    http_method_names = [
-        'get',
-        'post'
-    ]
+    http_method_names = ["get", "post"]
 
     def dispatch(self, request, pk, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
             if pk == request.user.pk:
-                if not request.user.author.exists() and not request.user.executor.exists():
+                if (
+                    not request.user.author.exists()
+                    and not request.user.executor.exists()
+                ):
                     handler = getattr(
                         self, request.method.lower(), self.http_method_not_allowed
                     )
@@ -101,7 +100,9 @@ class DeleteUser(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
                     )
                     return redirect(reverse_lazy("all_users"))
             else:
-                messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
+                messages.add_message(
+                    request, messages.ERROR, gettext("You are betrayer")
+                )
                 return redirect(reverse_lazy("all_users"))
         else:
             handler = self.http_method_not_allowed

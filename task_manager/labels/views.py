@@ -1,8 +1,6 @@
 from .models import LabelModel
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.contrib import messages
-from django.shortcuts import redirect
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
@@ -36,15 +34,17 @@ class UpdateLabel(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = gettext("Label updated")
 
 
-class DeleteLabel(CustomDispatchForDeletionMixin, CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeleteLabel(
+    CustomDispatchForDeletionMixin,
+    CustomLoginRequiredMixin,
+    SuccessMessageMixin,
+    DeleteView,
+):
     model = LabelModel
     success_message = gettext("Label deleted")
     success_url = reverse_lazy("all_labels")
     template_name = "labels/DeletePage.html"
     login_url = reverse_lazy("login")
-    url_to_all = reverse_lazy('all_labels')
+    url_to_all = reverse_lazy("all_labels")
     in_use_error_text = gettext("Can't delete label because it's in use")
-    http_method_names = [
-        'post',
-        'get'
-    ]
+    http_method_names = ["post", "get"]

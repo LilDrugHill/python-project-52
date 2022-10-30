@@ -18,21 +18,17 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
 
 class CustomDispatchForDeletionMixin:
-    http_method_names = [
-        'post',
-        'get'
-    ]
-    url_to_all = reverse_lazy('home')
+    http_method_names = ["post", "get"]
+    url_to_all = reverse_lazy("home")
     in_use_error_text = "set the error text using the 'in_use_error_text' attribute"
 
     def dispatch(self, request, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
-            if request.method.lower() == 'post':
+            if request.method.lower() == "post":
                 if self.get_object().taskmodel_set.exists():
                     messages.add_message(
-                        request,
-                        messages.ERROR,
-                        self.in_use_error_text)
+                        request, messages.ERROR, self.in_use_error_text
+                    )
                     return redirect(self.url_to_all)
             handler = getattr(
                 self, request.method.lower(), self.http_method_not_allowed

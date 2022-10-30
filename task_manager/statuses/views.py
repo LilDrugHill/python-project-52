@@ -3,8 +3,6 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib import messages
-from django.shortcuts import redirect
 
 from task_manager.statuses.forms import StatusForm
 from task_manager.utils import CustomLoginRequiredMixin, CustomDispatchForDeletionMixin
@@ -36,15 +34,17 @@ class UpdateStatus(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = gettext("Status updated")
 
 
-class DeleteStatus(CustomDispatchForDeletionMixin, CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeleteStatus(
+    CustomDispatchForDeletionMixin,
+    CustomLoginRequiredMixin,
+    SuccessMessageMixin,
+    DeleteView,
+):
     model = StatusModel
     success_message = gettext("Status deleted")
     success_url = reverse_lazy("all_statuses")
     template_name = "statuses/DeletePage.html"
     login_url = reverse_lazy("login")
-    url_to_all = reverse_lazy('all_statuses')
+    url_to_all = reverse_lazy("all_statuses")
     in_use_error_text = gettext("Can't delete status because it's in use")
-    http_method_names = [
-        'post',
-        'get'
-    ]
+    http_method_names = ["post", "get"]
