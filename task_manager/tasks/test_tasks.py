@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from task_manager.tasks.models import TaskModel
 from task_manager.statuses.models import StatusModel
 from task_manager.labels.models import LabelModel
-from task_manager.tests import PASSWORD
+from task_manager import PASSWORD
 
 
 @test.modify_settings(

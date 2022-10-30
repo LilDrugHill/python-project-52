@@ -5,7 +5,7 @@ from django.utils.translation import gettext
 from django import test
 
 from task_manager.auth.models import User
-from task_manager.tests import PASSWORD
+from task_manager import PASSWORD
 
 
 @test.modify_settings(

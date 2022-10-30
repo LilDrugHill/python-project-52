@@ -7,7 +7,7 @@ from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
 from task_manager.labels.forms import LabelForm
-from task_manager.utils import CustomLoginRequiredMixin
+from task_manager.utils import CustomLoginRequiredMixin, CustomDispatchForDeletionMixin
 
 
 class ShowAllLabels(CustomLoginRequiredMixin, ListView):
@@ -36,20 +36,15 @@ class UpdateLabel(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     success_message = gettext("Label updated")
 
 
-class DeleteLabel(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeleteLabel(CustomDispatchForDeletionMixin, CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = LabelModel
     success_message = gettext("Label deleted")
     success_url = reverse_lazy("all_labels")
     template_name = "labels/DeletePage.html"
     login_url = reverse_lazy("login")
-
-    def post(self, request, pk, *args, **kwargs):
-        if not self.get_object().taskmodel_set.exists():
-            return super().post(self, request, *args, **kwargs)
-        else:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                gettext("Can't delete label because it's in use"),
-            )
-            return redirect(reverse_lazy("all_labels"))
+    url_to_all = reverse_lazy('all_labels')
+    in_use_error_text = gettext("Can't delete label because it's in use")
+    http_method_names = [
+        'post',
+        'get'
+    ]

@@ -38,7 +38,7 @@ class ShowAllUsers(ListView):
         return User.objects.filter(is_staff=False)
 
 
-class Logout(CustomLoginRequiredMixin, LogoutView):
+class Logout(LogoutView):
     success_message = gettext("You are logged out")
     login_url = reverse_lazy("home")
     success_url = reverse_lazy('home')
@@ -56,20 +56,23 @@ class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "auth/UpdatePage.html"
     form_class = UpdateRegUserForm
     model = User
+    http_method_names = [
+        'get',
+        'post'
+    ]
 
-    def post(self, request, pk, *args, **kwargs):
-        if request.user.pk == pk:
-            return super().post(self, request, pk, *args, **kwargs)
+    def dispatch(self, request, pk, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            if request.user.pk == pk:
+                handler = getattr(
+                    self, request.method.lower(), self.http_method_not_allowed
+                )
+            else:
+                messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
+                return redirect("all_users")
         else:
-            messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
-            return redirect("all_users")
-
-    def get(self, request, pk, *args, **kwargs):
-        if request.user.pk == pk:
-            return super().get(self, request, pk, *args, **kwargs)
-        else:
-            messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
-            return redirect("all_users")
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
 
 class DeleteUser(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
@@ -78,33 +81,29 @@ class DeleteUser(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     success_message = gettext("User deleted")
     template_name = "auth/DeletePage.html"
     login_url = reverse_lazy("login")
+    http_method_names = [
+        'get',
+        'post'
+    ]
 
-    def get(self, request, pk, *args, **kwargs):
-        if pk == request.user.pk:
-            if not request.user.author.count() and not request.user.executor.count():
-                return super(DeleteUser, self).get(self, request, *args, **kwargs)
-
-            messages.add_message(
-                request,
-                messages.ERROR,
-                gettext("Cannot delete user because it's in use"),
-            )
-            return redirect(reverse_lazy("all_users"))
+    def dispatch(self, request, pk, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            if pk == request.user.pk:
+                if not request.user.author.exists() and not request.user.executor.exists():
+                    handler = getattr(
+                        self, request.method.lower(), self.http_method_not_allowed
+                    )
+                else:
+                    messages.add_message(
+                        request,
+                        messages.ERROR,
+                        gettext("Cannot delete user because it's in use"),
+                    )
+                    return redirect(reverse_lazy("all_users"))
+            else:
+                messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
+                return redirect(reverse_lazy("all_users"))
         else:
-            messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
-            return redirect(reverse_lazy("all_users"))
+            handler = self.http_method_not_allowed
 
-    def post(self, request, pk, *args, **kwargs):
-        if pk == request.user.pk:
-            if not request.user.author.count() and not request.user.executor.count():
-                return super(DeleteUser, self).post(self, request, *args, **kwargs)
-
-            messages.add_message(
-                request,
-                messages.ERROR,
-                gettext("Cannot delete user because it's in use"),
-            )
-            return redirect(reverse_lazy("all_users"))
-        else:
-            messages.add_message(request, messages.ERROR, gettext("You are betrayer"))
-            return redirect(reverse_lazy("all_users"))
+        return handler(request, *args, **kwargs)

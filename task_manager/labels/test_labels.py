@@ -5,8 +5,8 @@ from django.contrib.messages import get_messages
 from django.utils.translation import gettext
 from django import test
 
-from task_manager.statuses.models import StatusModel
-from task_manager.tests import PASSWORD
+from task_manager.labels.models import LabelModel
+from task_manager import PASSWORD
 
 
 @test.modify_settings(
@@ -27,83 +27,84 @@ class TestView(TestCase):
     def setUp(self) -> None:
         self.client = Client()
         self.user = User.objects.get(pk=1)
-        self.status_in_use = StatusModel.objects.get(pk=1)
-        self.status_unused = StatusModel.objects.get(pk=2)
-        self.all_statuses_url = reverse_lazy("all_statuses")
+        self.label_in_use = LabelModel.objects.get(pk=1)
+        self.label_unused = LabelModel.objects.get(pk=2)
+        self.all_labels_url = reverse_lazy("all_labels")
 
-    def test_create_status_GET(self):
+    def test_create_label_GET(self):
         self.client.login(username=self.user.username, password=PASSWORD)
-        response = self.client.get(reverse_lazy("create_status"))
+        response = self.client.get(reverse_lazy("create_label"))
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "statuses/CreationPage.html")
+        self.assertTemplateUsed(response, "labels/CreationPage.html")
 
-    def test_create_status_POST(self):
+    def test_create_label_POST(self):
         self.client.login(username=self.user.username, password=PASSWORD)
-        response = self.client.post(reverse_lazy("create_status"), {"name": "status"})
+        response = self.client.post(reverse_lazy("create_label"), {"name": "label"})
         message = list(get_messages(response.wsgi_request))
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Status created"))
-        self.assertRedirects(response, self.all_statuses_url)
-        self.assertTrue(StatusModel.objects.get(name="status"))
+        self.assertEquals(str(message[0]), gettext("Label created"))
+        self.assertRedirects(response, self.all_labels_url)
+        self.assertTrue(LabelModel.objects.get(name="label"))
 
-    def test_update_status_GET(self):
+    def test_update_label_GET(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(
-            reverse_lazy("update_status", kwargs={"pk": self.status_in_use.pk})
+            reverse_lazy("update_label", kwargs={"pk": self.label_in_use.pk})
         )
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "statuses/UpdatePage.html")
+        self.assertTemplateUsed(response, "labels/UpdatePage.html")
 
-    def test_update_status_POST(self):
+    def test_update_label_POST(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.post(
-            reverse_lazy("update_status", kwargs={"pk": self.status_in_use.pk}),
+            reverse_lazy("update_label", kwargs={"pk": self.label_in_use.pk}),
             {"name": "new_test_name"},
         )
         message = list(get_messages(response.wsgi_request))
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Status updated"))
-        self.assertRedirects(response, self.all_statuses_url)
-        self.assertTrue(StatusModel.objects.get(name="new_test_name"))
+        self.assertEquals(str(message[0]), gettext("Label updated"))
+        self.assertRedirects(response, self.all_labels_url)
+        self.assertTrue(LabelModel.objects.get(name="new_test_name"))
 
-    def test_delete_status_GET(self):
+    def test_delete_label_GET(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.get(
-            reverse_lazy("delete_status", kwargs={"pk": self.status_unused.pk})
+            reverse_lazy("delete_label", kwargs={"pk": self.label_unused.pk})
         )
 
         self.assertEquals(response.status_code, 200)
-        self.assertTemplateUsed(response, "statuses/DeletePage.html")
+        self.assertTemplateUsed(response, "labels/DeletePage.html")
 
-    def test_delete_status_POST_unused(self):
+    def test_delete_label_POST_unused(self):
         self.client.login(username=self.user.username, password=PASSWORD)
         response = self.client.post(
-            reverse_lazy("delete_status", kwargs={"pk": self.status_unused.pk})
+            reverse_lazy("delete_label", kwargs={"pk": self.label_unused.pk})
         )
         message = list(get_messages(response.wsgi_request))
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Status deleted"))
-        self.assertRedirects(response, self.all_statuses_url)
-        self.assertFalse(StatusModel.objects.filter(pk=self.status_unused.pk).exists())
+        self.assertEquals(str(message[0]), gettext("Label deleted"))
+        self.assertRedirects(response, self.all_labels_url)
+        self.assertFalse(LabelModel.objects.filter(pk=self.label_unused.pk).exists())
 
-    def test_delete_status_POST_in_use(self):
+    def test_delete_label_POST_in_use(self):
         self.client.login(username=self.user.username, password=PASSWORD)
+
         response = self.client.post(
-            reverse_lazy("delete_status", kwargs={"pk": self.status_in_use.pk})
+            reverse_lazy("delete_label", kwargs={"pk": self.label_in_use.pk})
         )
         message = list(get_messages(response.wsgi_request))
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
         self.assertEquals(
-            str(message[0]), gettext("Can't delete status because it's in use")
+            str(message[0]), gettext("Can't delete label because it's in use")
         )
-        self.assertRedirects(response, self.all_statuses_url)
+        self.assertRedirects(response, self.all_labels_url)

@@ -10,6 +10,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
 from django.utils.translation import gettext
+from django_filters.views import FilterView
 
 from task_manager.tasks.forms import TaskForm
 from task_manager.tasks.filters import TaskFilter
@@ -17,19 +18,11 @@ from task_manager.tasks.models import TaskModel
 from task_manager.utils import CustomLoginRequiredMixin
 
 
-class ShowAllTasks(CustomLoginRequiredMixin, ListView):
+class ShowAllTasks(CustomLoginRequiredMixin, FilterView):
     model = TaskModel
     template_name = "tasks/PageWithTasks.html"
     login_url = reverse_lazy("login")
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        c_def = {
-            "filter": TaskFilter(
-                self.request.GET, queryset=self.get_queryset(), request=self.request
-            )
-        }
-        return dict(list(context.items()) + list(c_def.items()))
+    filterset_class = TaskFilter
 
 
 class ShowTask(CustomLoginRequiredMixin, DetailView):
@@ -70,23 +63,24 @@ class DeleteTask(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     template_name = "tasks/DeletePage.html"
     success_message = gettext("Task deleted")
     login_url = reverse_lazy("login")
+    http_method_names = [
+        'post',
+        'get'
+    ]
 
-    def get(self, request, pk, *args, **kwargs):
-        if request.user.pk == TaskModel.objects.get(pk=pk).author.pk:
-            return super().get(self, request, *args, **kwargs)
-        messages.add_message(
-            request,
-            messages.ERROR,
-            f"{gettext('A task can only be deleted by its author.')}",
-        )
-        return redirect(reverse_lazy("all_tasks"))
-
-    def post(self, request, pk, *args, **kwargs):
-        if request.user.pk == TaskModel.objects.get(pk=pk).author.pk:
-            return super().post(self, request, *args, **kwargs)
-        messages.add_message(
-            request,
-            messages.ERROR,
-            gettext("A task can only be deleted by its author."),
-        )
-        return redirect(reverse_lazy("all_tasks"))
+    def dispatch(self, request, pk, *args, **kwargs):
+        if request.method.lower() in self.http_method_names:
+            if request.user.pk == TaskModel.objects.get(pk=pk).author.pk:
+                handler = getattr(
+                    self, request.method.lower(), self.http_method_not_allowed
+                )
+            else:
+                messages.add_message(
+                    request,
+                    messages.ERROR,
+                    f"{gettext('A task can only be deleted by its author.')}",
+                )
+                return redirect(reverse_lazy("all_tasks"))
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
