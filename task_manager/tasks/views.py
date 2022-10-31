@@ -36,7 +36,6 @@ class CreateTask(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     template_name = "tasks/CreationPage.html"
     success_url = reverse_lazy("all_tasks")
-    login_url = reverse_lazy("login")
     success_message = gettext("Task created")
     login_url = reverse_lazy("login")
 
