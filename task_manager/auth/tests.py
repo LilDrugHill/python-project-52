@@ -5,7 +5,7 @@ from django.utils.translation import gettext
 from django import test
 
 from task_manager.auth.models import User
-from task_manager import PASSWORD
+from task_manager.utils import SomeFuncsForTestsMixin
 
 
 @test.modify_settings(
@@ -15,7 +15,7 @@ from task_manager import PASSWORD
         ]
     }
 )
-class TestViews(TestCase):
+class TestViews(SomeFuncsForTestsMixin, TestCase):
     fixtures = [
         "task_manager/fixtures/labels.json",
         "task_manager/fixtures/statuses.json",
@@ -53,7 +53,7 @@ class TestViews(TestCase):
         self.assertTrue(User.objects.get(username="ddenis"))
 
     def test_update_user_GET_owner(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.get(
             reverse_lazy("update_user", kwargs={"pk": self.user_1.pk})
         )
@@ -62,7 +62,7 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, "auth/UpdatePage.html")
 
     def test_update_user_GET_betrayer(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.get(
             reverse_lazy("update_user", kwargs={"pk": self.user_1.pk})
         )
@@ -74,15 +74,15 @@ class TestViews(TestCase):
         self.assertRedirects(response, self.all_users_url)
 
     def test_update_user_POST(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.post(
             reverse_lazy("update_user", kwargs={"pk": self.user_1.pk}),
             {
                 "first_name": "some_f_name",
                 "last_name": "some_l_name",
                 "username": self.user_1.username,
-                "password1": PASSWORD,
-                "password2": PASSWORD,
+                "password1": self.password,
+                "password2": self.password,
             },
         )
         messages = list(get_messages(response.wsgi_request))
@@ -96,7 +96,7 @@ class TestViews(TestCase):
         self.assertRedirects(response, self.all_users_url)
 
     def test_delete_user_GET_owner(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.get(
             reverse_lazy("delete_user", kwargs={"pk": self.user_2.pk})
         )
@@ -105,7 +105,7 @@ class TestViews(TestCase):
         self.assertTemplateUsed(response, "auth/DeletePage.html")
 
     def test_delete_user_GET_betrayer(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.get(
             reverse_lazy("delete_user", kwargs={"pk": self.user_1.pk})
         )
@@ -117,7 +117,7 @@ class TestViews(TestCase):
         self.assertRedirects(response, self.all_users_url)
 
     def test_delete_user_POST_free_owner(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.post(
             reverse_lazy("delete_user", kwargs={"pk": self.user_2.pk})
         )
@@ -130,7 +130,7 @@ class TestViews(TestCase):
         self.assertFalse(User.objects.filter(pk=self.user_2.pk).exists())
 
     def test_delete_user_POST_author_task(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.post(
             reverse_lazy("delete_user", kwargs={"pk": self.user_1.pk})
         )
@@ -144,7 +144,7 @@ class TestViews(TestCase):
         self.assertRedirects(response, self.all_users_url)
 
     def test_delete_user_POST_betrayer(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.post(
             reverse_lazy("delete_user", kwargs={"pk": self.user_1.pk})
         )

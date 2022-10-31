@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from task_manager.tasks.models import TaskModel
 from task_manager.statuses.models import StatusModel
 from task_manager.labels.models import LabelModel
-from task_manager import PASSWORD
+from task_manager.utils import SomeFuncsForTestsMixin
 
 
 @test.modify_settings(
@@ -18,7 +18,7 @@ from task_manager import PASSWORD
         ]
     }
 )
-class TestView(TestCase):
+class TestView(TestCase, SomeFuncsForTestsMixin):
     fixtures = [
         "task_manager/fixtures/labels.json",
         "task_manager/fixtures/statuses.json",
@@ -37,14 +37,14 @@ class TestView(TestCase):
         self.all_tasks_url = reverse_lazy("all_tasks")
 
     def test_create_task_GET(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.get(reverse_lazy("create_task"))
 
         self.assertEquals(response.status_code, 200)
         self.assertTemplateUsed(response, "tasks/CreationPage.html")
 
     def test_create_task_POST(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.post(
             reverse_lazy("create_task"),
             {
@@ -72,7 +72,7 @@ class TestView(TestCase):
         )
 
     def test_update_task_GET(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.get(
             reverse_lazy("update_task", kwargs={"pk": self.task.pk})
         )
@@ -81,7 +81,7 @@ class TestView(TestCase):
         self.assertTemplateUsed(response, "tasks/UpdatePage.html")
 
     def test_update_task_POST(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.post(
             reverse_lazy("update_task", kwargs={"pk": self.task.pk}),
             {
@@ -102,7 +102,7 @@ class TestView(TestCase):
         self.assertFalse(TaskModel.objects.filter(labels=self.label_2))
 
     def test_delete_task_GET_owner(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.get(
             reverse_lazy("delete_task", kwargs={"pk": self.task.pk})
         )
@@ -111,7 +111,7 @@ class TestView(TestCase):
         self.assertTemplateUsed(response, "tasks/DeletePage.html")
 
     def test_delete_task_GET_betrayer(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.get(
             reverse_lazy("delete_task", kwargs={"pk": self.task.pk})
         )
@@ -125,7 +125,7 @@ class TestView(TestCase):
         )
 
     def test_delete_task_POST_owner(self):
-        self.client.login(username=self.user_1.username, password=PASSWORD)
+        self.login_user(self.user_1)
         response = self.client.post(
             reverse_lazy("delete_task", kwargs={"pk": self.task.pk})
         )
@@ -138,7 +138,7 @@ class TestView(TestCase):
         self.assertFalse(TaskModel.objects.filter(pk=self.task.pk).exists())
 
     def test_delete_task_POST_betrayer(self):
-        self.client.login(username=self.user_2.username, password=PASSWORD)
+        self.login_user(self.user_2)
         response = self.client.post(
             reverse_lazy("delete_task", kwargs={"pk": self.task.pk})
         )

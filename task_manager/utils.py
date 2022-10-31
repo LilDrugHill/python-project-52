@@ -36,3 +36,10 @@ class CustomDispatchForDeletionMixin:
         else:
             handler = self.http_method_not_allowed
         return handler(request, *args, **kwargs)
+
+
+class SomeFuncsForTestsMixin:
+    password = "Asdfg123456"
+
+    def login_user(self, user):
+        self.client.login(username=user.username, password=self.password)
