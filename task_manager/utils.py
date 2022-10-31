@@ -14,7 +14,7 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
                 request, messages.WARNING, self.permission_denied_message
             )
             return self.handle_no_permission()
-        return super(LoginRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super().dispatch(request, *args, **kwargs)
 
 
 class CustomDispatchForDeletionMixin:
