@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.shortcuts import redirect
+
 from .models import StatusModel
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -5,7 +8,7 @@ from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
 from task_manager.statuses.forms import StatusForm
-from task_manager.utils import CustomLoginRequiredMixin, CustomDispatchForDeletionMixin
+from task_manager.utils import CustomLoginRequiredMixin
 
 
 class ShowAllStatuses(CustomLoginRequiredMixin, ListView):
@@ -35,7 +38,6 @@ class UpdateStatus(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 class DeleteStatus(
-    CustomDispatchForDeletionMixin,
     CustomLoginRequiredMixin,
     SuccessMessageMixin,
     DeleteView,
@@ -45,6 +47,12 @@ class DeleteStatus(
     success_url = reverse_lazy("all_statuses")
     template_name = "statuses/DeletePage.html"
     login_url = reverse_lazy("login")
-    url_to_all = reverse_lazy("all_statuses")
-    in_use_error_text = gettext("Can't delete status because it's in use")
-    http_method_names = ["post", "get"]
+
+    def post(self, request, *args, **kwargs):
+        if self.get_object().taskmodel_set.exists():
+            messages.add_message(
+                request, messages.ERROR, gettext("Can't delete status because it's in use")
+            )
+            return redirect(self.success_url)
+        else:
+            return super().post(self, request, *args, **kwargs)

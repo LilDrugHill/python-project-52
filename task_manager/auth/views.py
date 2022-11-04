@@ -9,7 +9,7 @@ from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
 
-from task_manager.utils import CustomLoginRequiredMixin
+from task_manager.utils import CustomLoginRequiredMixin, CustomDispatchChangeUserMixin
 from task_manager.auth.forms import (
     UpdateRegUserForm,
     CustomAuthenticationForm,
@@ -57,6 +57,8 @@ class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     form_class = UpdateRegUserForm
     model = User
     http_method_names = ["get", "post"]
+    in_use_error_text = gettext("Cannot delete user because it's in use")
+    url_to_all = reverse_lazy('all_users')
 
     def dispatch(self, request, pk, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
@@ -74,37 +76,26 @@ class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
         return handler(request, *args, **kwargs)
 
 
-class DeleteUser(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
+class DeleteUser(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, SuccessMessageMixin, DeleteView):
     model = User
     success_url = reverse_lazy("all_users")
     success_message = gettext("User deleted")
     template_name = "auth/DeletePage.html"
     login_url = reverse_lazy("login")
     http_method_names = ["get", "post"]
+    in_use_error_text = gettext("Cannot delete user because it's in use")
+    url_to_all = reverse_lazy('all_users')
 
     def dispatch(self, request, pk, *args, **kwargs):
-        if request.method.lower() in self.http_method_names:
-            if pk == request.user.pk:
-                if (
-                    not request.user.author.exists()
-                    and not request.user.executor.exists()
-                ):
-                    handler = getattr(
-                        self, request.method.lower(), self.http_method_not_allowed
-                    )
-                else:
-                    messages.add_message(
-                        request,
-                        messages.ERROR,
-                        gettext("Cannot delete user because it's in use"),
-                    )
-                    return redirect(reverse_lazy("all_users"))
-            else:
-                messages.add_message(
-                    request, messages.ERROR, gettext("You are betrayer")
-                )
-                return redirect(reverse_lazy("all_users"))
+        if (
+            not request.user.author.exists()
+            and not request.user.executor.exists()
+        ):
+            return super(CustomDispatchChangeUserMixin, self).dispatch(self, request, pk, *args, **kwargs)
         else:
-            handler = self.http_method_not_allowed
-
-        return handler(request, *args, **kwargs)
+            messages.add_message(
+                request,
+                messages.ERROR,
+                gettext("Cannot delete user because it's in use"),
+            )
+            return redirect(reverse_lazy("all_users"))

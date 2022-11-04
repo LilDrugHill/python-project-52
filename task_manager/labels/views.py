@@ -1,3 +1,6 @@
+from django.contrib import messages
+from django.shortcuts import redirect
+
 from .models import LabelModel
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
@@ -35,7 +38,6 @@ class UpdateLabel(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
 
 
 class DeleteLabel(
-    CustomDispatchForDeletionMixin,
     CustomLoginRequiredMixin,
     SuccessMessageMixin,
     DeleteView,
@@ -45,6 +47,12 @@ class DeleteLabel(
     success_url = reverse_lazy("all_labels")
     template_name = "labels/DeletePage.html"
     login_url = reverse_lazy("login")
-    url_to_all = reverse_lazy("all_labels")
-    in_use_error_text = gettext("Can't delete label because it's in use")
-    http_method_names = ["post", "get"]
+
+    def post(self, request, *args, **kwargs):
+        if self.get_object().taskmodel_set.exists():
+            messages.add_message(
+                request, messages.ERROR, gettext("Can't delete label because it's in use")
+            )
+            return redirect(self.success_url)
+        else:
+            return super().post(self, request, *args, **kwargs)

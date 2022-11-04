@@ -3,7 +3,11 @@ from django.utils.translation import gettext
 
 
 class StatusModel(models.Model):
-    name = models.CharField(max_length=50, verbose_name=gettext("Name"), unique=True)
+    name = models.CharField(max_length=50,
+                            verbose_name=gettext("Name"),
+                            unique=True,
+                            error_messages={'unique': gettext('Status with the same name already exists')}
+                            )
     created_at = models.DateTimeField(
         auto_now_add=True, verbose_name=gettext("Creation date")
     )
