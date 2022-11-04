@@ -51,7 +51,9 @@ class DeleteStatus(
     def post(self, request, *args, **kwargs):
         if self.get_object().taskmodel_set.exists():
             messages.add_message(
-                request, messages.ERROR, gettext("Can't delete status because it's in use")
+                request,
+                messages.ERROR,
+                gettext("Can't delete status because it's in use"),
             )
             return redirect(self.success_url)
         else:

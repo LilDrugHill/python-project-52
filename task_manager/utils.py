@@ -26,7 +26,8 @@ class CustomDispatchChangeUserMixin:
         if request.method.lower() in self.http_method_names:
             if self.get_object().pk == request.user.pk:
                 handler = getattr(
-                    self, request.method.lower(), self.http_method_not_allowed)
+                    self, request.method.lower(), self.http_method_not_allowed
+                )
             else:
                 messages.add_message(
                     request, messages.ERROR, gettext("You are betrayer")

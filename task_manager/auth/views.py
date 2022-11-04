@@ -49,7 +49,12 @@ class Logout(LogoutView):
         return redirect(self.success_url)
 
 
-class UpdateUserData(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, SuccessMessageMixin, UpdateView):
+class UpdateUserData(
+    CustomLoginRequiredMixin,
+    CustomDispatchChangeUserMixin,
+    SuccessMessageMixin,
+    UpdateView,
+):
     success_message = gettext("User changed successfully")
     success_url = reverse_lazy("all_users")
     login_url = reverse_lazy("login")
@@ -58,7 +63,12 @@ class UpdateUserData(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, Su
     model = User
 
 
-class DeleteUser(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, SuccessMessageMixin, DeleteView):
+class DeleteUser(
+    CustomLoginRequiredMixin,
+    CustomDispatchChangeUserMixin,
+    SuccessMessageMixin,
+    DeleteView,
+):
     model = User
     success_url = reverse_lazy("all_users")
     success_message = gettext("User deleted")
@@ -66,10 +76,7 @@ class DeleteUser(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, Succes
     login_url = reverse_lazy("login")
 
     def dispatch(self, request, *args, **kwargs):
-        if (
-            not request.user.author.exists()
-            and not request.user.executor.exists()
-        ):
+        if not request.user.author.exists() and not request.user.executor.exists():
             return super(DeleteUser, self).dispatch(request, *args, **kwargs)
         else:
             messages.add_message(
