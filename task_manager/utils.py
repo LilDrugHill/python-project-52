@@ -3,7 +3,6 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.utils.translation import gettext
-from django.views.generic import DeleteView
 
 
 class CustomLoginRequiredMixin(LoginRequiredMixin):
@@ -20,19 +19,19 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
 class CustomDispatchChangeUserMixin:
     http_method_names = ["post", "get"]
-    url_to_all = reverse_lazy("home")
+    success_url = reverse_lazy("all_users")
     in_use_error_text = "set the error text using the 'in_use_error_text' attribute"
 
-    def dispatch(self, request, pk, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if request.method.lower() in self.http_method_names:
-            if pk == request.user.pk:
+            if self.get_object().pk == request.user.pk:
                 handler = getattr(
                     self, request.method.lower(), self.http_method_not_allowed)
             else:
                 messages.add_message(
                     request, messages.ERROR, gettext("You are betrayer")
                 )
-                return redirect(self.url_to_all)
+                return redirect(self.success_url)
         else:
             handler = self.http_method_not_allowed
 

@@ -55,4 +55,4 @@ class DeleteStatus(
             )
             return redirect(self.success_url)
         else:
-            return super().post(self, request, *args, **kwargs)
+            return super(DeleteStatus, self).post(request, *args, **kwargs)

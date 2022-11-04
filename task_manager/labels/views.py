@@ -8,7 +8,7 @@ from django.utils.translation import gettext
 from django.contrib.messages.views import SuccessMessageMixin
 
 from task_manager.labels.forms import LabelForm
-from task_manager.utils import CustomLoginRequiredMixin, CustomDispatchForDeletionMixin
+from task_manager.utils import CustomLoginRequiredMixin
 
 
 class ShowAllLabels(CustomLoginRequiredMixin, ListView):
@@ -55,4 +55,4 @@ class DeleteLabel(
             )
             return redirect(self.success_url)
         else:
-            return super().post(self, request, *args, **kwargs)
+            return super(DeleteLabel, self).post(request, *args, **kwargs)

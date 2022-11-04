@@ -49,31 +49,13 @@ class Logout(LogoutView):
         return redirect(self.success_url)
 
 
-class UpdateUserData(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
+class UpdateUserData(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, SuccessMessageMixin, UpdateView):
     success_message = gettext("User changed successfully")
     success_url = reverse_lazy("all_users")
     login_url = reverse_lazy("login")
     template_name = "auth/UpdatePage.html"
     form_class = UpdateRegUserForm
     model = User
-    http_method_names = ["get", "post"]
-    in_use_error_text = gettext("Cannot delete user because it's in use")
-    url_to_all = reverse_lazy('all_users')
-
-    def dispatch(self, request, pk, *args, **kwargs):
-        if request.method.lower() in self.http_method_names:
-            if request.user.pk == pk:
-                handler = getattr(
-                    self, request.method.lower(), self.http_method_not_allowed
-                )
-            else:
-                messages.add_message(
-                    request, messages.ERROR, gettext("You are betrayer")
-                )
-                return redirect("all_users")
-        else:
-            handler = self.http_method_not_allowed
-        return handler(request, *args, **kwargs)
 
 
 class DeleteUser(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, SuccessMessageMixin, DeleteView):
@@ -82,20 +64,17 @@ class DeleteUser(CustomLoginRequiredMixin, CustomDispatchChangeUserMixin, Succes
     success_message = gettext("User deleted")
     template_name = "auth/DeletePage.html"
     login_url = reverse_lazy("login")
-    http_method_names = ["get", "post"]
-    in_use_error_text = gettext("Cannot delete user because it's in use")
-    url_to_all = reverse_lazy('all_users')
 
-    def dispatch(self, request, pk, *args, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         if (
             not request.user.author.exists()
             and not request.user.executor.exists()
         ):
-            return super(CustomDispatchChangeUserMixin, self).dispatch(self, request, pk, *args, **kwargs)
+            return super(DeleteUser, self).dispatch(request, *args, **kwargs)
         else:
             messages.add_message(
                 request,
                 messages.ERROR,
                 gettext("Cannot delete user because it's in use"),
             )
-            return redirect(reverse_lazy("all_users"))
+            return redirect(self.success_url)
