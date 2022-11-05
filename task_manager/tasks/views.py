@@ -52,7 +52,6 @@ class UpdateTask(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_tasks")
     success_message = gettext("Task updated")
-    login_url = reverse_lazy("login")
 
 
 class DeleteTask(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):

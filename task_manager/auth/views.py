@@ -8,8 +8,10 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 
-from task_manager.utils import CustomLoginRequiredMixin, CustomDispatchChangeUserMixin
+
+from task_manager.utils import CustomLoginRequiredMixin, CustomHandleNoPermissionWithoutForbidden
 from task_manager.auth.forms import (
     UpdateRegUserForm,
     CustomAuthenticationForm,
@@ -51,7 +53,8 @@ class Logout(LogoutView):
 
 class UpdateUserData(
     CustomLoginRequiredMixin,
-    CustomDispatchChangeUserMixin,
+    CustomHandleNoPermissionWithoutForbidden,
+    UserPassesTestMixin,
     SuccessMessageMixin,
     UpdateView,
 ):
@@ -61,11 +64,16 @@ class UpdateUserData(
     template_name = "auth/UpdatePage.html"
     form_class = UpdateRegUserForm
     model = User
+    permission_denied_message = gettext("You are betrayer")
+
+    def test_func(self):
+        return self.get_object().pk == self.request.user.pk
 
 
 class DeleteUser(
     CustomLoginRequiredMixin,
-    CustomDispatchChangeUserMixin,
+    CustomHandleNoPermissionWithoutForbidden,
+    UserPassesTestMixin,
     SuccessMessageMixin,
     DeleteView,
 ):
@@ -74,14 +82,11 @@ class DeleteUser(
     success_message = gettext("User deleted")
     template_name = "auth/DeletePage.html"
     login_url = reverse_lazy("login")
+    permission_denied_message = gettext("You are betrayer")
 
-    def dispatch(self, request, *args, **kwargs):
-        if not request.user.author.exists() and not request.user.executor.exists():
-            return super(DeleteUser, self).dispatch(request, *args, **kwargs)
-        else:
-            messages.add_message(
-                request,
-                messages.ERROR,
-                gettext("Cannot delete user because it's in use"),
-            )
-            return redirect(self.success_url)
+    def test_func(self):
+        if self.get_object().pk == self.request.user.pk:
+            if not self.get_object().author.exists() and not self.get_object().executor.exists():
+                return True
+            self.permission_denied_message = gettext("Cannot delete user because it's in use")
+            return False
