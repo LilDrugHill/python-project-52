@@ -11,7 +11,10 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib.auth.mixins import UserPassesTestMixin
 
 
-from task_manager.utils import CustomLoginRequiredMixin, CustomHandleNoPermissionWithoutForbidden
+from task_manager.utils import (
+    CustomLoginRequiredMixin,
+    CustomHandleNoPermissionWithoutForbidden,
+)
 from task_manager.auth.forms import (
     UpdateRegUserForm,
     CustomAuthenticationForm,
@@ -86,7 +89,12 @@ class DeleteUser(
 
     def test_func(self):
         if self.get_object().pk == self.request.user.pk:
-            if not self.get_object().author.exists() and not self.get_object().executor.exists():
+            if (
+                not self.get_object().author.exists()
+                and not self.get_object().executor.exists()
+            ):
                 return True
-            self.permission_denied_message = gettext("Cannot delete user because it's in use")
+            self.permission_denied_message = gettext(
+                "Cannot delete user because it's in use"
+            )
             return False

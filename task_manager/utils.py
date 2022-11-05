@@ -10,9 +10,7 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
-            messages.add_message(
-                request, messages.WARNING, self.must_login_message
-            )
+            messages.add_message(request, messages.WARNING, self.must_login_message)
             return self.handle_no_permission()
         return super().dispatch(request, *args, **kwargs)
 
@@ -20,9 +18,15 @@ class CustomLoginRequiredMixin(LoginRequiredMixin):
 class CustomHandleNoPermissionWithoutForbidden:
     def handle_no_permission(self):
         if self.raise_exception or self.request.user.is_authenticated:
-            messages.add_message(self.request, messages.ERROR, self.permission_denied_message)
+            messages.add_message(
+                self.request, messages.ERROR, self.permission_denied_message
+            )
             return redirect(self.success_url)
-        return redirect_to_login(self.request.get_full_path(), self.get_login_url(), self.get_redirect_field_name())
+        return redirect_to_login(
+            self.request.get_full_path(),
+            self.get_login_url(),
+            self.get_redirect_field_name(),
+        )
 
 
 class SomeFuncsForTestsMixin:

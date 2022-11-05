@@ -9,15 +9,28 @@ from task_manager.auth.models import UserStr
 
 class TaskFilter(django_filters.FilterSet):
     label = django_filters.ModelChoiceFilter(
-        field_name="labels", queryset=LabelModel.objects.all(), label=gettext("Label"), widget=forms.Select(attrs={'class': 'form-control mr-3 ml-2'})
+        field_name="labels",
+        queryset=LabelModel.objects.all(),
+        label=gettext("Label"),
+        widget=forms.Select(attrs={"class": "form-control mr-3 ml-2"}),
     )
-    status = django_filters.ModelChoiceFilter(field_name="status", queryset=StatusModel.objects.all(), label=gettext("Status"), widget=forms.Select(attrs={'class': 'form-control mr-3 ml-2'}))
-    executor = django_filters.ModelChoiceFilter(field_name="executor", queryset=UserStr.objects.all(), label=gettext("Executor"), widget=forms.Select(attrs={'class': 'form-control mr-3 ml-2'}))
+    status = django_filters.ModelChoiceFilter(
+        field_name="status",
+        queryset=StatusModel.objects.all(),
+        label=gettext("Status"),
+        widget=forms.Select(attrs={"class": "form-control mr-3 ml-2"}),
+    )
+    executor = django_filters.ModelChoiceFilter(
+        field_name="executor",
+        queryset=UserStr.objects.all(),
+        label=gettext("Executor"),
+        widget=forms.Select(attrs={"class": "form-control mr-3 ml-2"}),
+    )
 
     self_task = django_filters.BooleanFilter(
         method="show_self_task",
-        widget=forms.CheckboxInput(attrs={'class': 'form-check-input mr-1 ml-2'}),
-        label=gettext("Only own tasks")
+        widget=forms.CheckboxInput(attrs={"class": "form-check-input mr-1 ml-2"}),
+        label=gettext("Only own tasks"),
     )
 
     class Meta:
