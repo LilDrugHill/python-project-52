@@ -8,7 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy
 from django.contrib import messages
 from django.shortcuts import redirect
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django_filters.views import FilterView
 
 from task_manager.tasks.forms import TaskForm
@@ -36,7 +36,7 @@ class CreateTask(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
 
     template_name = "tasks/CreationPage.html"
     success_url = reverse_lazy("all_tasks")
-    success_message = gettext("Task created")
+    success_message = _("Task created")
     login_url = reverse_lazy("login")
 
     def form_valid(self, form):
@@ -51,14 +51,14 @@ class UpdateTask(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "tasks/UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_tasks")
-    success_message = gettext("Task updated")
+    success_message = _("Task updated")
 
 
 class DeleteTask(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
     model = TaskModel
     success_url = reverse_lazy("all_tasks")
     template_name = "tasks/DeletePage.html"
-    success_message = gettext("Task deleted")
+    success_message = _("Task deleted")
     login_url = reverse_lazy("login")
 
     def dispatch(self, request, *args, **kwargs):
@@ -68,6 +68,6 @@ class DeleteTask(CustomLoginRequiredMixin, SuccessMessageMixin, DeleteView):
             messages.add_message(
                 request,
                 messages.ERROR,
-                f"{gettext('A task can only be deleted by its author.')}",
+                f"{_('A task can only be deleted by its author.')}",
             )
             return redirect(self.success_url)

@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django import test
 
 from task_manager.statuses.models import StatusModel
@@ -45,7 +45,7 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Status created"))
+        self.assertEquals(str(message[0]), _("Status created"))
         self.assertRedirects(response, self.all_statuses_url)
         self.assertTrue(StatusModel.objects.get(name="status"))
 
@@ -68,7 +68,7 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Status updated"))
+        self.assertEquals(str(message[0]), _("Status updated"))
         self.assertRedirects(response, self.all_statuses_url)
         self.assertTrue(StatusModel.objects.get(name="new_test_name"))
 
@@ -90,7 +90,7 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Status deleted"))
+        self.assertEquals(str(message[0]), _("Status deleted"))
         self.assertRedirects(response, self.all_statuses_url)
         self.assertFalse(StatusModel.objects.filter(pk=self.status_unused.pk).exists())
 
@@ -104,6 +104,6 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
         self.assertEquals(
-            str(message[0]), gettext("Can't delete status because it's in use")
+            str(message[0]), _("Can't delete status because it's in use")
         )
         self.assertRedirects(response, self.all_statuses_url)

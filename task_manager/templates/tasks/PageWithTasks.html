@@ -30,7 +30,7 @@
         <td>{{ p.author }}</td>
         <td>{{ p.executor }}</td>
         <td>{{ p.created_at }}</td>
-        <td><a href="{% url 'update_task' pk=p.pk %}">{% trans 'Update' %}</a>|<a href="{% url 'delete_task' pk=p.pk%}">{% trans 'Delete' %}</a></td>
+        <td><a href="{% url 'update_task' pk=p.pk %}">{% trans 'Update' %}</a> | <a href="{% url 'delete_task' pk=p.pk%}">{% trans 'Delete' %}</a></td>
     </tr>
     {% endfor %}
     </tbody>

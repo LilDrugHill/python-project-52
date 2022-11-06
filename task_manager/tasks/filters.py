@@ -1,36 +1,37 @@
 import django_filters
-from .forms import TaskModel
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django import forms
+
 from task_manager.labels.models import LabelModel
 from task_manager.statuses.models import StatusModel
 from task_manager.auth.models import UserStr
+from task_manager.tasks.forms import TaskModel
 
 
 class TaskFilter(django_filters.FilterSet):
     label = django_filters.ModelChoiceFilter(
         field_name="labels",
         queryset=LabelModel.objects.all(),
-        label=gettext("Label"),
+        label=_("Label"),
         widget=forms.Select(attrs={"class": "form-control mr-3 ml-2"}),
     )
     status = django_filters.ModelChoiceFilter(
         field_name="status",
         queryset=StatusModel.objects.all(),
-        label=gettext("Status"),
+        label=_("Status"),
         widget=forms.Select(attrs={"class": "form-control mr-3 ml-2"}),
     )
     executor = django_filters.ModelChoiceFilter(
         field_name="executor",
         queryset=UserStr.objects.all(),
-        label=gettext("Executor"),
+        label=_("Executor"),
         widget=forms.Select(attrs={"class": "form-control mr-3 ml-2"}),
     )
 
     self_task = django_filters.BooleanFilter(
         method="show_self_task",
         widget=forms.CheckboxInput(attrs={"class": "form-check-input mr-1 ml-2"}),
-        label=gettext("Only own tasks"),
+        label=_("Only own tasks"),
     )
 
     class Meta:

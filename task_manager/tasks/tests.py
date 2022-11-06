@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django import test
 from django.contrib.auth.models import User
 
@@ -59,7 +59,7 @@ class TestView(TestCase, SomeFuncsForTestsMixin):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Task created"))
+        self.assertEquals(str(message[0]), _("Task created"))
         self.assertRedirects(response, self.all_tasks_url)
         self.assertEquals(
             TaskModel.objects.get(
@@ -96,7 +96,7 @@ class TestView(TestCase, SomeFuncsForTestsMixin):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Task updated"))
+        self.assertEquals(str(message[0]), _("Task updated"))
         self.assertRedirects(response, self.all_tasks_url)
         self.assertTrue(TaskModel.objects.get(name="new_test_name"))
         self.assertFalse(TaskModel.objects.filter(labels=self.label_2))
@@ -121,7 +121,7 @@ class TestView(TestCase, SomeFuncsForTestsMixin):
         self.assertRedirects(response, self.all_tasks_url)
         self.assertEquals(len(message), 1)
         self.assertEquals(
-            str(message[0]), gettext("A task can only be deleted by its author.")
+            str(message[0]), _("A task can only be deleted by its author.")
         )
 
     def test_delete_task_POST_owner(self):
@@ -133,7 +133,7 @@ class TestView(TestCase, SomeFuncsForTestsMixin):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Task deleted"))
+        self.assertEquals(str(message[0]), _("Task deleted"))
         self.assertRedirects(response, self.all_tasks_url)
         self.assertFalse(TaskModel.objects.filter(pk=self.task.pk).exists())
 
@@ -148,5 +148,5 @@ class TestView(TestCase, SomeFuncsForTestsMixin):
         self.assertRedirects(response, self.all_tasks_url)
         self.assertEquals(len(message), 1)
         self.assertEquals(
-            str(message[0]), gettext("A task can only be deleted by its author.")
+            str(message[0]), _("A task can only be deleted by its author.")
         )

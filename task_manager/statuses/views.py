@@ -1,14 +1,13 @@
 from django.contrib import messages
 from django.shortcuts import redirect
-
-from .models import StatusModel
 from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django.contrib.messages.views import SuccessMessageMixin
 
 from task_manager.statuses.forms import StatusForm
 from task_manager.utils import CustomLoginRequiredMixin
+from task_manager.statuses.models import StatusModel
 
 
 class ShowAllStatuses(CustomLoginRequiredMixin, ListView):
@@ -24,7 +23,7 @@ class CreateStatus(CustomLoginRequiredMixin, SuccessMessageMixin, CreateView):
     template_name = "statuses/CreationPage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_statuses")
-    success_message = gettext("Status created")
+    success_message = _("Status created")
 
 
 class UpdateStatus(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
@@ -34,7 +33,7 @@ class UpdateStatus(CustomLoginRequiredMixin, SuccessMessageMixin, UpdateView):
     template_name = "statuses/UpdatePage.html"
     login_url = reverse_lazy("login")
     success_url = reverse_lazy("all_statuses")
-    success_message = gettext("Status updated")
+    success_message = _("Status updated")
 
 
 class DeleteStatus(
@@ -43,7 +42,7 @@ class DeleteStatus(
     DeleteView,
 ):
     model = StatusModel
-    success_message = gettext("Status deleted")
+    success_message = _("Status deleted")
     success_url = reverse_lazy("all_statuses")
     template_name = "statuses/DeletePage.html"
     login_url = reverse_lazy("login")
@@ -53,7 +52,7 @@ class DeleteStatus(
             messages.add_message(
                 request,
                 messages.ERROR,
-                gettext("Can't delete status because it's in use"),
+                _("Can't delete status because it's in use"),
             )
             return redirect(self.success_url)
         else:

@@ -1,6 +1,6 @@
 from django import forms
 from task_manager.labels.models import LabelModel
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 
 class LabelForm(forms.ModelForm):
@@ -13,6 +13,6 @@ class LabelForm(forms.ModelForm):
         fields = "__all__"
         widgets = {
             "name": forms.TextInput(
-                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+                attrs={"placeholder": _("Name"), "class": "form-control"}
             ),
         }

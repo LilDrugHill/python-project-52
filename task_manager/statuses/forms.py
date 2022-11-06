@@ -1,6 +1,6 @@
 from django import forms
 from task_manager.statuses.models import StatusModel
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 
 class StatusForm(forms.ModelForm):
@@ -13,6 +13,6 @@ class StatusForm(forms.ModelForm):
         fields = ("name",)
         widgets = {
             "name": forms.TextInput(
-                attrs={"placeholder": gettext("Name"), "class": "form-control"}
+                attrs={"placeholder": _("Name"), "class": "form-control"}
             ),
         }

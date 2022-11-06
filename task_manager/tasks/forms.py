@@ -1,14 +1,14 @@
 from django import forms
 from task_manager.tasks.models import TaskModel
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 
 
 class TaskForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("label_suffix", "")
         super().__init__(*args, **kwargs)
-        self.fields["status"].empty_label = gettext("Status not selected")
-        self.fields["executor"].empty_label = gettext("Executor not selected")
+        self.fields["status"].empty_label = _("Status not selected")
+        self.fields["executor"].empty_label = _("Executor not selected")
 
     def __str__(self):
         return self.name

@@ -1,6 +1,6 @@
 from django.contrib.auth import logout
 from django.contrib.auth.views import LogoutView
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django.shortcuts import redirect
 from django.contrib import messages
 from django.contrib.auth.models import User
@@ -25,14 +25,14 @@ class RegisterUser(SuccessMessageMixin, CreateView):
     form_class = UpdateRegUserForm
     template_name = "auth/SignUpPage.html"
     success_url = reverse_lazy("login")
-    success_message = gettext("You have been successfully registered")
+    success_message = _("You have been successfully registered")
 
 
 class LoginUser(SuccessMessageMixin, LoginView):
     form_class = CustomAuthenticationForm
     template_name = "auth/SignInPage.html"
     success_url = reverse_lazy("home")
-    success_message = gettext("Successfully login")
+    success_message = _("Successfully login")
 
 
 class ShowAllUsers(ListView):
@@ -44,7 +44,7 @@ class ShowAllUsers(ListView):
 
 
 class Logout(LogoutView):
-    success_message = gettext("You are logged out")
+    success_message = _("You are logged out")
     login_url = reverse_lazy("home")
     success_url = reverse_lazy("home")
 
@@ -61,13 +61,13 @@ class UpdateUserData(
     SuccessMessageMixin,
     UpdateView,
 ):
-    success_message = gettext("User changed successfully")
+    success_message = _("User changed successfully")
     success_url = reverse_lazy("all_users")
     login_url = reverse_lazy("login")
     template_name = "auth/UpdatePage.html"
     form_class = UpdateRegUserForm
     model = User
-    permission_denied_message = gettext("You are betrayer")
+    permission_denied_message = _("You are betrayer")
 
     def test_func(self):
         return self.get_object().pk == self.request.user.pk
@@ -82,10 +82,10 @@ class DeleteUser(
 ):
     model = User
     success_url = reverse_lazy("all_users")
-    success_message = gettext("User deleted")
+    success_message = _("User deleted")
     template_name = "auth/DeletePage.html"
     login_url = reverse_lazy("login")
-    permission_denied_message = gettext("You are betrayer")
+    permission_denied_message = _("You are betrayer")
 
     def test_func(self):
         if self.get_object().pk == self.request.user.pk:
@@ -94,7 +94,7 @@ class DeleteUser(
                 and not self.get_object().executor.exists()
             ):
                 return True
-            self.permission_denied_message = gettext(
+            self.permission_denied_message = _(
                 "Cannot delete user because it's in use"
             )
             return False

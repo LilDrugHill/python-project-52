@@ -20,6 +20,7 @@ install:
 
 translate:
 	django-admin makemessages -l ru
+	django-admin makemessages -l en
 
 translate-comp:
 	django-admin compilemessages

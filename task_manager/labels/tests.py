@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django import test
 
 from task_manager.labels.models import LabelModel
@@ -45,7 +45,7 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Label created"))
+        self.assertEquals(str(message[0]), _("Label created"))
         self.assertRedirects(response, self.all_labels_url)
         self.assertTrue(LabelModel.objects.get(name="label"))
 
@@ -68,7 +68,7 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Label updated"))
+        self.assertEquals(str(message[0]), _("Label updated"))
         self.assertRedirects(response, self.all_labels_url)
         self.assertTrue(LabelModel.objects.get(name="new_test_name"))
 
@@ -90,7 +90,7 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(str(message[0]), gettext("Label deleted"))
+        self.assertEquals(str(message[0]), _("Label deleted"))
         self.assertRedirects(response, self.all_labels_url)
         self.assertFalse(LabelModel.objects.filter(pk=self.label_unused.pk).exists())
 
@@ -104,6 +104,6 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
         self.assertEquals(
-            str(message[0]), gettext("Can't delete label because it's in use")
+            str(message[0]), _("Can't delete label because it's in use")
         )
         self.assertRedirects(response, self.all_labels_url)

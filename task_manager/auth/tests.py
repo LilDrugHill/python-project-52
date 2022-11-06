@@ -1,7 +1,7 @@
 from django.test import TestCase, Client
 from django.urls import reverse_lazy
 from django.contrib.messages import get_messages
-from django.utils.translation import gettext
+from django.utils.translation import gettext_lazy as _
 from django import test
 
 from task_manager.auth.models import User
@@ -28,7 +28,7 @@ class TestViews(SomeFuncsForTestsMixin, TestCase):
         self.user_2 = User.objects.get(pk=2)
         self.client = Client()
         self.registration_url = reverse_lazy("register")
-        self.betrayer_message = gettext("You are betrayer")
+        self.betrayer_message = _("You are betrayer")
         self.all_users_url = reverse_lazy("all_users")
 
     def test_register_user_GET(self):
@@ -89,7 +89,7 @@ class TestViews(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(messages), 1)
-        self.assertEquals(str(messages[0]), gettext("User changed successfully"))
+        self.assertEquals(str(messages[0]), _("User changed successfully"))
         self.assertTrue(
             User.objects.get(username=self.user_1.username, first_name="some_f_name")
         )
@@ -125,7 +125,7 @@ class TestViews(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(messages), 1)
-        self.assertEquals(str(messages[0]), gettext("User deleted"))
+        self.assertEquals(str(messages[0]), _("User deleted"))
         self.assertRedirects(response, self.all_users_url)
         self.assertFalse(User.objects.filter(pk=self.user_2.pk).exists())
 
@@ -139,7 +139,7 @@ class TestViews(SomeFuncsForTestsMixin, TestCase):
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
         self.assertEquals(
-            str(message[0]), gettext("Cannot delete user because it's in use")
+            str(message[0]), _("Cannot delete user because it's in use")
         )
         self.assertRedirects(response, self.all_users_url)
 
