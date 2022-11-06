@@ -367,7 +367,7 @@ msgstr "Менеджер задач"
 msgid ""
 "A practical project, the purpose of which was to create a website with all "
 "that it entails."
-msgstr "Практический проект, нацеленный на создание сайта со всеми из этого вытекающими."
+msgstr "Практический проект, нацеленный на создание сайта со всем из этого вытекающими."
 
 #: task_manager/templates/task_manager/HomePage.html:11
 msgid "Back to GitHub"

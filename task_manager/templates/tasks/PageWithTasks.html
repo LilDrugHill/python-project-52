@@ -6,10 +6,10 @@
 <h1>{{title}}</h1>
 <div class="card md-3">
     <div class="card-body bg-light">
-<form method="get" class="form-inline center">
-    {{ filter.form | crispy }}
-    <button class="btn btn-primary mr-3 ml-2" type="submit">{% trans 'Show' %}</button>
-</form>
+        <form method="get" class="form-inline center">
+            {{ filter.form | crispy }}
+            <button class="btn btn-primary mr-3 ml-2" type="submit">{% trans 'Show' %}</button>
+        </form>
     </div>
 </div>
 <table class="table table-striped">
@@ -24,13 +24,17 @@
     </thead>
     <tbody>
     {% for p in filter.qs %}
-    <tr><td>{{ p.id }}</td>
+    <tr>
+        <th>{{ p.id }}</th>
         <td><a href='{% url "show_task" pk=p.pk %}'>{{ p.name }}</a></td>
         <td>{{ p.status.name }}</td>
         <td>{{ p.author }}</td>
         <td>{{ p.executor }}</td>
         <td>{{ p.created_at }}</td>
-        <td><a href="{% url 'update_task' pk=p.pk %}">{% trans 'Update' %}</a> | <a href="{% url 'delete_task' pk=p.pk%}">{% trans 'Delete' %}</a></td>
+        <td>
+            <a class="mr-2" href="{% url 'update_task' pk=p.pk %}">{% trans 'Update' %}</a>
+            <a href="{% url 'delete_task' pk=p.pk%}">{% trans 'Delete' %}</a>
+        </td>
     </tr>
     {% endfor %}
     </tbody>
