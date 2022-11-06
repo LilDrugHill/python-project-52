@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-11-06 03:56+0300\n"
+"POT-Creation-Date: 2022-11-06 15:45+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
 #: task_manager/auth/forms.py:12 task_manager/auth/forms.py:17
 #: task_manager/auth/forms.py:64 task_manager/auth/forms.py:69
 msgid "Password"
@@ -106,11 +107,11 @@ msgstr "Label deleted"
 msgid "Can't delete label because it's in use"
 msgstr "Can't delete label because it's in use"
 
-#: task_manager/settings.py:135
+#: task_manager/settings.py:136
 msgid "Russian"
 msgstr "Russian"
 
-#: task_manager/settings.py:136
+#: task_manager/settings.py:137
 msgid "English"
 msgstr "English"
 
@@ -306,6 +307,10 @@ msgstr "Login"
 msgid "Registration"
 msgstr "Registration"
 
+#: task_manager/templates/base.html:58
+msgid "Translate"
+msgstr "Translate"
+
 #: task_manager/templates/labels/CreationPage.html:4
 msgid "Label creation page"
 msgstr "Label creation page"
@@ -352,9 +357,21 @@ msgstr "Create status"
 msgid "Update status page"
 msgstr "Update status page"
 
-#: task_manager/templates/task_manager/HomePage.html:5
-msgid "Home page"
-msgstr "Home page"
+#: task_manager/templates/task_manager/HomePage.html:8
+#, fuzzy
+#| msgid "Task manager"
+msgid "Taks Manager"
+msgstr "Task manager"
+
+#: task_manager/templates/task_manager/HomePage.html:9
+msgid ""
+"A practical project, the purpose of which was to create a website with all "
+"that it entails."
+msgstr ""
+
+#: task_manager/templates/task_manager/HomePage.html:11
+msgid "Back to GitHub"
+msgstr ""
 
 #: task_manager/templates/tasks/CreationPage.html:4
 msgid "Creation task page"
@@ -383,3 +400,6 @@ msgstr "Update task page"
 #: task_manager/utils.py:9
 msgid "You have to be logged in to access that page"
 msgstr "You have to be logged in to access that page"
+
+#~ msgid "Home page"
+#~ msgstr "Home page"

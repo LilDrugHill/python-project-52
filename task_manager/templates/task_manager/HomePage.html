@@ -2,5 +2,13 @@
 {% load i18n %}
 
 {% block content %}
-<h1>{% trans "Home page"%}</h1>
+<h1 class="my-4"></h1>
+<div class="card">
+  <div class="card-body p-5 bg-light">
+    <div class="display-4">{% trans 'Task manager' %}</div>
+    <p class="lead">{% trans 'A practical project, the purpose of which was to create a website with all that it entails.' %}</p>
+    <hr>
+    <a class="btn btn-primary btn-lg" href="https://github.com/LilDrugHill/task-manager">{% trans 'Back to GitHub' %}</a>
+  </div>
+</div>
 {% endblock %}

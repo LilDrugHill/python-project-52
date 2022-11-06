@@ -14,14 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
-from django.conf.urls.i18n import i18n_patterns
+# from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from task_manager import views
 import task_manager.auth.views
 
-urlpatterns = i18n_patterns(
+urlpatterns = [
     path("admin/", admin.site.urls),
     path("", views.HomePageView.as_view(), name="home"),
     path("users/", include("task_manager.auth.urls")),
@@ -31,7 +31,7 @@ urlpatterns = i18n_patterns(
     path("labels/", include("task_manager.labels.urls")),
     path("tasks/", include("task_manager.tasks.urls")),
     path('i18n/', include('django.conf.urls.i18n'), name='set_language'),
-)
+]
 
-urlpatterns.extend(i18n_patterns(*urlpatterns, prefix_default_language=False))
+# urlpatterns.extend(i18n_patterns(*urlpatterns, prefix_default_language=False))
 urlpatterns.extend(static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT))
