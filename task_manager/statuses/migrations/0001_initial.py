@@ -7,16 +7,38 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='StatusModel',
+            name="StatusModel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(error_messages={'unique': 'Status with the same name already exists'}, max_length=50, unique=True, verbose_name='Name')),
-                ('created_at', models.DateTimeField(auto_now_add=True, verbose_name='Creation date')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "name",
+                    models.CharField(
+                        error_messages={
+                            "unique": "Status with the same name already exists"
+                        },
+                        max_length=50,
+                        unique=True,
+                        verbose_name="Name",
+                    ),
+                ),
+                (
+                    "created_at",
+                    models.DateTimeField(
+                        auto_now_add=True, verbose_name="Creation date"
+                    ),
+                ),
             ],
         ),
     ]

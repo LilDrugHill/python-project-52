@@ -138,9 +138,7 @@ class TestViews(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(
-            str(message[0]), _("Cannot delete user because it's in use")
-        )
+        self.assertEquals(str(message[0]), _("Cannot delete user because it's in use"))
         self.assertRedirects(response, self.all_users_url)
 
     def test_delete_user_POST_betrayer(self):

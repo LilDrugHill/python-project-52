@@ -86,9 +86,11 @@ class DeleteUser(
 
     def post(self, request, *args, **kwargs):
         if (
-                not self.get_object().author.exists()
-                and not self.get_object().executor.exists()
+            not self.get_object().author.exists()
+            and not self.get_object().executor.exists()
         ):
             return super().post(request, *args, **kwargs)
-        messages.add_message(request, messages.ERROR, _("Cannot delete user because it's in use"))
+        messages.add_message(
+            request, messages.ERROR, _("Cannot delete user because it's in use")
+        )
         return redirect(self.success_url)

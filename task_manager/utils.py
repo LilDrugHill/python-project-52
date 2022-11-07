@@ -37,6 +37,5 @@ class SomeFuncsForTestsMixin:
 
 
 class CustomUserPassesTestMixin(UserPassesTestMixin):
-
     def test_func(self):
         return self.get_object().pk == self.request.user.pk

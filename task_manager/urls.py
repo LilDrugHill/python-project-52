@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf import settings
+
 # from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
@@ -30,7 +31,7 @@ urlpatterns = [
     path("statuses/", include("task_manager.statuses.urls")),
     path("labels/", include("task_manager.labels.urls")),
     path("tasks/", include("task_manager.tasks.urls")),
-    path('i18n/', include('django.conf.urls.i18n'), name='set_language'),
+    path("i18n/", include("django.conf.urls.i18n"), name="set_language"),
 ]
 
 # urlpatterns.extend(i18n_patterns(*urlpatterns, prefix_default_language=False))

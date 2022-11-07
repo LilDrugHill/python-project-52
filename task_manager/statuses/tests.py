@@ -103,7 +103,5 @@ class TestView(SomeFuncsForTestsMixin, TestCase):
 
         self.assertEquals(response.status_code, 302)
         self.assertEquals(len(message), 1)
-        self.assertEquals(
-            str(message[0]), _("Can't delete status because it's in use")
-        )
+        self.assertEquals(str(message[0]), _("Can't delete status because it's in use"))
         self.assertRedirects(response, self.all_statuses_url)
