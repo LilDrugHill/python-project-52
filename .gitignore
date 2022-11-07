@@ -7,4 +7,3 @@ coverage.xml
 test-coverage-tool
 .idea
 /dist/
-migrations
