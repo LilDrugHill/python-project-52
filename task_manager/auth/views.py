@@ -8,12 +8,12 @@ from django.views.generic import CreateView, ListView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 from django.contrib.auth.views import LoginView
 from django.contrib.messages.views import SuccessMessageMixin
-from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 from task_manager.utils import (
     CustomLoginRequiredMixin,
     CustomHandleNoPermissionWithoutForbidden,
+    CustomUserPassesTestMixin,
 )
 from task_manager.auth.forms import (
     UpdateRegUserForm,
@@ -57,7 +57,7 @@ class Logout(LogoutView):
 class UpdateUserData(
     CustomLoginRequiredMixin,
     CustomHandleNoPermissionWithoutForbidden,
-    UserPassesTestMixin,
+    CustomUserPassesTestMixin,
     SuccessMessageMixin,
     UpdateView,
 ):
@@ -69,14 +69,11 @@ class UpdateUserData(
     model = User
     permission_denied_message = _("You are betrayer")
 
-    def test_func(self):
-        return self.get_object().pk == self.request.user.pk
-
 
 class DeleteUser(
     CustomLoginRequiredMixin,
     CustomHandleNoPermissionWithoutForbidden,
-    UserPassesTestMixin,
+    CustomUserPassesTestMixin,
     SuccessMessageMixin,
     DeleteView,
 ):
@@ -87,14 +84,11 @@ class DeleteUser(
     login_url = reverse_lazy("login")
     permission_denied_message = _("You are betrayer")
 
-    def test_func(self):
-        if self.get_object().pk == self.request.user.pk:
-            if (
+    def post(self, request, *args, **kwargs):
+        if (
                 not self.get_object().author.exists()
                 and not self.get_object().executor.exists()
-            ):
-                return True
-            self.permission_denied_message = _(
-                "Cannot delete user because it's in use"
-            )
-            return False
+        ):
+            return super().post(request, *args, **kwargs)
+        messages.add_message(request, messages.ERROR, _("Cannot delete user because it's in use"))
+        return redirect(self.success_url)

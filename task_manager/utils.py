@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.views import redirect_to_login
 from django.shortcuts import redirect
 from django.utils.translation import gettext
@@ -34,3 +34,9 @@ class SomeFuncsForTestsMixin:
 
     def login_user(self, user):
         self.client.login(username=user.username, password=self.password)
+
+
+class CustomUserPassesTestMixin(UserPassesTestMixin):
+
+    def test_func(self):
+        return self.get_object().pk == self.request.user.pk
